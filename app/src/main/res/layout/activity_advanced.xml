@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.zx.view.widget.AppBarView
+        android:id="@+id/viewAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title_text="@string/advanced_about_title"/>
+
+    <com.zx.view.widget.MessageView
+        android:id="@+id/msg_key_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_padding"
+        app:message_text="@string/app_name"
+        app:title_text="@string/key_search"/>
+
+    <include layout="@layout/include_divider_ex"/>
+
+    <com.zx.view.widget.MessageView
+        android:id="@+id/msg_preview_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_padding"
+        app:message_text="@string/order_by_value"
+        app:title_text="@string/preview_order"/>
+
+</LinearLayout>

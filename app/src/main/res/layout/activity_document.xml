@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.zx.view.widget.AppBarView
+        android:id="@+id/viewAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title_text="@string/document_about_title"/>
+
+    <com.zx.view.widget.MessageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_margin"
+        app:message_text="@string/key_search_hint"
+        app:title_text="@string/key_search"/>
+
+    <include layout="@layout/include_divider_ex"/>
+
+    <com.zx.view.widget.MessageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_margin"
+        app:message_text="@string/interval_search_hint"
+        app:title_text="@string/interval_search"/>
+
+    <include layout="@layout/include_divider_ex"/>
+
+    <com.zx.view.widget.MessageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_margin"
+        app:message_text="@string/deck_operate_hint"
+        app:title_text="@string/deck_operate"/>
+
+</LinearLayout>

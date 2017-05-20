@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AppBarView">
+        <attr name="title_text" format="string"/>
+        <attr name="menu_visible" format="boolean"/>
+        <attr name="navigation_src" format="reference"/>
+        <attr name="menu_src" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="MessageView">
+        <attr name="title_text"/>
+        <attr name="message_text" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="SwitchView">
+        <attr name="title_text"/>
+    </declare-styleable>
+</resources>
