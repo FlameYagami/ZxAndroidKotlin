@@ -26,14 +26,16 @@ internal class ResultAdapter(context: Context) : BaseRecyclerViewAdapter(context
     override fun getView(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolder = holder as ViewHolder
         val cardBean = data[position] as CardBean
-        viewHolder.tvCname?.text = cardBean.cName
-        viewHolder.tvRace?.text = cardBean.race
-        viewHolder.tvCamp?.text = cardBean.camp
-        viewHolder.tvPower?.text = cardBean.power
-        viewHolder.tvCost?.text = cardBean.cost
-        viewHolder.linearLayout?.setOnClickListener { mOnItemClickListener.onItemClick(viewHolder.linearLayout!!, data, position) }
-        viewHolder.imgRestrict?.visibility = if (cardBean.restrict == "0") View.VISIBLE else View.GONE
-        Glide.with(context).load(CardUtils.getImagePathList(cardBean.image)[0]).error(R.drawable.ic_unknown_picture).into(viewHolder.imgThumbnail!!)
+        with(viewHolder) {
+            tvCname?.text = cardBean.cName
+            tvRace?.text = cardBean.race
+            tvCamp?.text = cardBean.camp
+            tvPower?.text = cardBean.power
+            tvCost?.text = cardBean.cost
+            linearLayout?.setOnClickListener { itemClickListener?.invoke(linearLayout as LinearLayout, data, position) }
+            imgRestrict?.visibility = if (cardBean.restrict == "0") View.VISIBLE else View.GONE
+            Glide.with(context).load(CardUtils.getImagePathList(cardBean.image)[0]).error(R.drawable.ic_unknown_picture).into(viewHolder.imgThumbnail)
+        }
     }
 
     internal class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

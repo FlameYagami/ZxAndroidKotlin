@@ -8,6 +8,8 @@ import com.zx.ui.advanced.AdvancedActivity
 import com.zx.ui.base.BaseActivity
 import com.zx.ui.document.DocumentActivity
 import com.zx.uitls.IntentUtils
+import com.zx.view.widget.AppBarView
+import kotlinx.android.synthetic.main.activity_setting.*
 
 /**
  * Created by 八神火焰 on 2016/12/21.
@@ -20,10 +22,11 @@ class SettingActivity : BaseActivity() {
 
     override fun initViewAndData() {
         ButterKnife.bind(this)
-    }
-
-    override fun onNavigationClick() {
-        onBackPressed()
+        viewAppBar.setNavigationClickListener(object : AppBarView.NavigationClickListener {
+            override fun onNavigationClick() {
+                onBackPressed()
+            }
+        })
     }
 
     @OnClick(R.id.msg_advance)

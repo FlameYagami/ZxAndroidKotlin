@@ -2,11 +2,6 @@ package com.zx.ui.loading
 
 import android.Manifest
 import android.os.Build
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
-import android.widget.TextView
-import butterknife.BindView
 import butterknife.ButterKnife
 import com.tbruyelle.rxpermissions.RxPermissions
 import com.zx.R
@@ -16,6 +11,7 @@ import com.zx.uitls.*
 import com.zx.uitls.PathManager.databasePath
 import com.zx.uitls.PathManager.pictureCache
 import com.zx.uitls.PathManager.pictureZipPath
+import kotlinx.android.synthetic.main.activity_loading.*
 import rx.Observable
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
@@ -27,15 +23,6 @@ import java.util.concurrent.TimeUnit
  */
 
 class LoadingActivity : BaseExActivity() {
-
-    @BindView(R.id.view_content)
-    internal var viewContent: RelativeLayout? = null
-    @BindView(R.id.prg_loading)
-    internal var prgLoading: ProgressBar? = null
-    @BindView(R.id.prg_hint)
-    internal var prgHint: TextView? = null
-    @BindView(R.id.img_bg_loading)
-    internal var imgBg: ImageView? = null
 
     override val layoutId: Int
         get() = R.layout.activity_loading
@@ -50,9 +37,6 @@ class LoadingActivity : BaseExActivity() {
         }
     }
 
-    override fun onNavigationClick() {
-    }
-
     /**
      * 请求权限
      */
@@ -61,7 +45,7 @@ class LoadingActivity : BaseExActivity() {
             if (granted!!) {
                 initData()
             } else {
-                showSnackBar(viewContent!!, "权限不足,程序将在2s后关闭")
+                showSnackBar(view_content, "权限不足,程序将在2s后关闭")
                 Observable.interval(2000, TimeUnit.MILLISECONDS).subscribe { along -> AppManager.getInstances().AppExit(this) }
             }
         }
@@ -92,8 +76,8 @@ class LoadingActivity : BaseExActivity() {
 
             override fun onNext(progress: Int) {
                 if (-1 != progress) {
-                    prgLoading?.progress = progress
-                    prgHint?.text = String.format("%s/100", progress)
+                    prg_loading.progress = progress
+                    prg_hint.text = String.format("%s/100", progress)
                 }
             }
         })

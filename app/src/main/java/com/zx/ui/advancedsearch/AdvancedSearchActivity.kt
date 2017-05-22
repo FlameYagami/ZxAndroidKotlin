@@ -4,10 +4,7 @@ import android.app.Activity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
 import butterknife.BindArray
-import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.zx.R
@@ -26,6 +23,8 @@ import com.zx.uitls.RxBus
 import com.zx.uitls.database.SQLiteUtils
 import com.zx.uitls.database.SqlUtils
 import com.zx.view.dialog.DialogCheckBox
+import com.zx.view.widget.AppBarView
+import kotlinx.android.synthetic.main.activity_advanced_search.*
 import java.util.*
 
 /**
@@ -33,28 +32,6 @@ import java.util.*
  */
 
 class AdvancedSearchActivity : BaseActivity() {
-    @BindView(R.id.txt_key)
-    internal var txtKey: EditText? = null
-    @BindView(R.id.txt_cost)
-    internal var txtCost: EditText? = null
-    @BindView(R.id.txt_power)
-    internal var txtPower: EditText? = null
-    @BindView(R.id.cmb_pack)
-    internal var cmbPack: Spinner? = null
-    @BindView(R.id.cmb_illust)
-    internal var cmbIllust: Spinner? = null
-    @BindView(R.id.cmb_type)
-    internal var cmbType: Spinner? = null
-    @BindView(R.id.cmb_camp)
-    internal var cmbCamp: Spinner? = null
-    @BindView(R.id.cmb_race)
-    internal var cmbRace: Spinner? = null
-    @BindView(R.id.cmb_sign)
-    internal var cmbSign: Spinner? = null
-    @BindView(R.id.cmb_rare)
-    internal var cmbRare: Spinner? = null
-    @BindView(R.id.cmb_restrict)
-    internal var cmbRestrict: Spinner? = null
     @BindArray(R.array.camp)
     internal var campArray: Array<String>? = null
 
@@ -65,21 +42,22 @@ class AdvancedSearchActivity : BaseActivity() {
 
     override fun initViewAndData() {
         ButterKnife.bind(this)
+        viewAppBar.setNavigationClickListener(object : AppBarView.NavigationClickListener {
+            override fun onNavigationClick() {
+                onBackPressed()
+            }
+        })
         fromActivity = intent.extras.getString(Activity::class.java.simpleName, "")
-        cmbIllust?.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CardUtils.illust)
-        cmbPack?.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CardUtils.allPack)
-        cmbCamp?.onItemSelectedListener = onCampItemSelectedListener
+        cmb_illust.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CardUtils.illust)
+        cmb_pack.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CardUtils.allPack)
+        cmb_camp.onItemSelectedListener = onCampItemSelectedListener
         AbilityTypeBean.initAbilityTypeMap()
         AbilityDetailBean.initAbilityDetailMap()
     }
 
-    override fun onNavigationClick() {
-        onBackPressed()
-    }
-
     @OnClick(R.id.btn_ability_type)
     fun onAbilityType_Click() {
-        DialogCheckBox(this, "基础分类", AbilityTypeBean.abilityTypeMap, object :DialogCheckBox.OnClickListener {
+        DialogCheckBox(this, "基础分类", AbilityTypeBean.abilityTypeMap, object : DialogCheckBox.OnClickListener {
             override fun getCheckBoxMap(mCheckboxMap: LinkedHashMap<String, Boolean>) {
                 AbilityTypeBean.abilityTypeMap = mCheckboxMap
             }
@@ -108,7 +86,7 @@ class AdvancedSearchActivity : BaseActivity() {
                 RxBus.instance.post(CardListEvent(cardList))
                 super.onBackPressed()
             } else if (fromActivity == MainActivity::class.java.simpleName) {
-                ResultActivity.cardBeanList = cardList
+                ResultActivity.cardBeanList = cardList.toMutableList()
                 IntentUtils.gotoActivity(this, ResultActivity::class.java)
             }
         }
@@ -116,17 +94,17 @@ class AdvancedSearchActivity : BaseActivity() {
 
     val cardBean: CardBean
         get() {
-            val Type = cmbType?.selectedItem.toString()
-            val Camp = cmbCamp?.selectedItem.toString()
-            val Race = cmbRace?.selectedItem.toString()
-            val Sign = cmbSign?.selectedItem.toString()
-            val Rare = cmbRare?.selectedItem.toString()
-            val Pack = cmbPack?.selectedItem.toString()
-            val Illust = cmbIllust?.selectedItem.toString()
-            val Restrict = cmbRestrict?.selectedItem.toString()
-            val Key = txtKey?.text.toString().trim { it <= ' ' }
-            val Cost = txtCost?.text.toString().trim { it <= ' ' }
-            val Power = txtPower?.text.toString().trim { it <= ' ' }
+            val Type = cmb_type.selectedItem.toString()
+            val Camp = cmb_camp.selectedItem.toString()
+            val Race = cmb_race.selectedItem.toString()
+            val Sign = cmb_sign.selectedItem.toString()
+            val Rare = cmb_rare.selectedItem.toString()
+            val Pack = cmb_pack.selectedItem.toString()
+            val Illust = cmb_illust.selectedItem.toString()
+            val Restrict = cmb_restrict.selectedItem.toString()
+            val Key = txt_key.text.toString().trim { it <= ' ' }
+            val Cost = txt_cost.text.toString().trim { it <= ' ' }
+            val Power = txt_power.text.toString().trim { it <= ' ' }
             val AbilityType = SqlUtils.getAbilityTypeSql(AbilityTypeBean.abilityTypeMap)
             val AbilityDetail = SqlUtils.getAbilityDetailSql(AbilityDetailBean.abilityDetailMap)
             return CardBean(Key, Type, Camp, Race, Sign, Rare, Pack, Illust, Restrict, Cost, Power, AbilityType, AbilityDetail)
@@ -135,7 +113,7 @@ class AdvancedSearchActivity : BaseActivity() {
     private val onCampItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
         override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-            cmbRace?.adapter = ArrayAdapter(this@AdvancedSearchActivity, android.R.layout.simple_spinner_item, CardUtils.getPartRace(campArray!![position]))
+            cmb_race.adapter = ArrayAdapter(this@AdvancedSearchActivity, android.R.layout.simple_spinner_item, CardUtils.getPartRace(campArray!![position]))
         }
 
         override fun onNothingSelected(parent: AdapterView<*>) {
@@ -145,17 +123,17 @@ class AdvancedSearchActivity : BaseActivity() {
 
     @OnClick(R.id.fab_reset)
     fun onReset_Click() {
-        cmbType?.setSelection(0)
-        cmbCamp?.setSelection(0)
-        cmbRace?.setSelection(0)
-        cmbSign?.setSelection(0)
-        cmbRare?.setSelection(0)
-        cmbPack?.setSelection(0)
-        cmbIllust?.setSelection(0)
-        cmbRestrict?.setSelection(0)
-        txtKey?.setText("")
-        txtCost?.setText("")
-        txtPower?.setText("")
+        cmb_type.setSelection(0)
+        cmb_camp.setSelection(0)
+        cmb_race.setSelection(0)
+        cmb_sign.setSelection(0)
+        cmb_rare.setSelection(0)
+        cmb_pack.setSelection(0)
+        cmb_illust.setSelection(0)
+        cmb_restrict.setSelection(0)
+        txt_key.setText("")
+        txt_cost.setText("")
+        txt_power.setText("")
         AbilityTypeBean.initAbilityTypeMap()
         AbilityDetailBean.initAbilityDetailMap()
     }

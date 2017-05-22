@@ -34,8 +34,4 @@ class VersusActivity : BaseExActivity() {
 //        mGreenHandAdapter.setOnItemClickListener { view, data, position -> MyPopup(this, R.layout.popupwindow_hand) }
 //        mGreenHandAdapter.updateData(mGreenHandBean)
     }
-
-    override fun onNavigationClick() {
-        onBackPressed()
-    }
 }

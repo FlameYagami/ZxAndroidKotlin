@@ -33,9 +33,9 @@ class CardAdapter internal constructor(context: Context) : BaseRecyclerViewAdapt
         val widthPx = (DisplayUtils.screenWidth - DisplayUtils.dip2px(32f)) / 10
         val heightPx = widthPx * 7 / 5
         viewHolder.imgThumbnail?.layoutParams = FrameLayout.LayoutParams(widthPx, heightPx)
-        viewHolder.imgThumbnail?.setOnClickListener { view -> mOnItemClickListener.onItemClick(view, data, position) }
+        viewHolder.imgThumbnail?.setOnClickListener { view -> itemClickListener?.invoke(view, data, position) }
         viewHolder.imgThumbnail?.setOnLongClickListener { view ->
-            mOnItemLongClickListener.onItemLongClick(view, data, position)
+            itemLongClickListener?.invoke(view, data, position)
             false
         }
         viewHolder.imgRestrict?.visibility = if (cardBean.restrict == "0") View.VISIBLE else View.GONE

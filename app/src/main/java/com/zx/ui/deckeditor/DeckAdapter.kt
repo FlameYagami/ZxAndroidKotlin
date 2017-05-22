@@ -32,9 +32,9 @@ internal class DeckAdapter(context: Context) : BaseRecyclerViewAdapter(context) 
         val widthPx = (DisplayUtils.screenWidth - DisplayUtils.dip2px(15f)) / 10
         val heightPx = widthPx * 7 / 5
         viewHolder.imgThumbnail?.layoutParams = FrameLayout.LayoutParams(widthPx, heightPx)
-        viewHolder.imgThumbnail?.setOnClickListener { view -> mOnItemClickListener.onItemClick(view, data, holder.getAdapterPosition()) }
+        viewHolder.imgThumbnail?.setOnClickListener { view -> itemClickListener?.invoke(view, data, holder.getAdapterPosition()) }
         viewHolder.imgThumbnail?.setOnLongClickListener { view ->
-            mOnItemLongClickListener.onItemLongClick(view, data, holder.getAdapterPosition())
+            itemLongClickListener?.invoke(view, data, holder.getAdapterPosition())
             true
         }
         Glide.with(context).load(deckBean.imagePath).error(R.drawable.ic_unknown_thumbnail).centerCrop().into(viewHolder.imgThumbnail!!)

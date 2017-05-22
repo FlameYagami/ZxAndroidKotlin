@@ -1,18 +1,13 @@
 package com.zx.ui.main
 
 import android.app.Activity
-import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
 import android.view.MenuItem
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.FrameLayout
-import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
-import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import com.zx.R
 import com.zx.config.MapConst
@@ -29,20 +24,12 @@ import com.zx.uitls.IntentUtils
 import com.zx.uitls.database.SQLiteUtils
 import com.zx.uitls.database.SqlUtils
 import com.zx.view.banner.BannerImageLoader
+import com.zx.view.widget.AppBarView
+import kotlinx.android.synthetic.main.activity_main.*
 import rx.Observable
 import rx.schedulers.Schedulers
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
-    @BindView(R.id.view_drawer)
-    internal var viewDrawer: DrawerLayout? = null
-    @BindView(R.id.banner)
-    internal var bannerGuide: Banner? = null
-    @BindView(R.id.view_content)
-    internal var viewContent: CoordinatorLayout? = null
-    @BindView(R.id.txt_search)
-    internal var txtSearch: EditText? = null
-    @BindView(R.id.nav_view)
-    internal var navView: NavigationView? = null
     private var firstTime: Long = 0
 
     override val layoutId: Int
@@ -50,19 +37,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun initViewAndData() {
         ButterKnife.bind(this)
-
+        viewAppBar.setNavigationClickListener(object : AppBarView.NavigationClickListener {
+            override fun onNavigationClick() {
+                view_drawer.openDrawer(GravityCompat.START)
+            }
+        })
+        nav_view.setNavigationItemSelectedListener(this)
         // 主界面不可调用SwipeBack
         setSwipeBackEnable(false)
         initBGABanner()
         Observable.just(this).observeOn(Schedulers.newThread()).subscribe {
-            navView?.setNavigationItemSelectedListener(this)
             RestrictUtils.getRestrictList()
             SQLiteUtils.getAllCardList()
         }
-    }
-
-    override fun onNavigationClick() {
-        viewDrawer?.openDrawer(GravityCompat.START)
     }
 
     private fun initBGABanner() {
@@ -70,17 +57,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val marginPx = DisplayUtils.dip2px(16f)
         val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, heightPx)
         params.setMargins(marginPx, marginPx, marginPx, marginPx)
-        bannerGuide?.layoutParams = params
-        bannerGuide?.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
-        bannerGuide?.setIndicatorGravity(BannerConfig.RIGHT)
-        bannerGuide?.setImageLoader(BannerImageLoader())
-        bannerGuide?.setImages(MapConst.GuideMap.entries.map { it.value })
-        bannerGuide?.setOnBannerClickListener { position ->
+        banner.layoutParams = params
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
+        banner.setIndicatorGravity(BannerConfig.RIGHT)
+        banner.setImageLoader(BannerImageLoader())
+        banner.setImages(MapConst.GuideMap.entries.map { it.value })
+        banner.setOnBannerClickListener { position ->
             val querySql = SqlUtils.getPackQuerySql(MapConst.GuideMap.entries.map { it.key }[position - 1])
-            ResultActivity.cardBeanList = SQLiteUtils.getCardList(querySql)
+            ResultActivity.cardBeanList = SQLiteUtils.getCardList(querySql).toMutableList()
             IntentUtils.gotoActivity(this, ResultActivity::class.java)
         }
-        bannerGuide?.start()
+        banner.start()
     }
 
     /**
@@ -89,19 +76,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     @OnClick(R.id.fab_search)
     fun onSearch_Click() {
         DisplayUtils.hideKeyboard(this)
-        val querySql = SqlUtils.getKeyQuerySql(txtSearch?.text.toString().trim { it <= ' ' })
+        val querySql = SqlUtils.getKeyQuerySql(txt_search.text.toString().trim { it <= ' ' })
         val cardBeanList = SQLiteUtils.getCardList(querySql)
         if (cardBeanList.isEmpty()) {
             showToast("没有查询到相关卡牌")
         } else {
-            ResultActivity.cardBeanList = cardBeanList
+            ResultActivity.cardBeanList = cardBeanList.toMutableList()
             IntentUtils.gotoActivity(this, ResultActivity::class.java)
         }
     }
 
     override fun onBackPressed() {
-        if (viewDrawer?.isDrawerOpen(GravityCompat.START) as Boolean) {
-            viewDrawer?.closeDrawer(GravityCompat.START)
+        if (view_drawer.isDrawerOpen(GravityCompat.START)) {
+            view_drawer.closeDrawer(GravityCompat.START)
         } else {
             val lastTime = System.currentTimeMillis()
             val between = lastTime - firstTime
@@ -109,7 +96,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 AppManager.getInstances().AppExit(this)
             } else {
                 firstTime = lastTime
-                showSnackBar(viewContent!!, "再按一次退出应用")
+                showSnackBar(view_content, "再按一次退出应用")
             }
         }
     }
@@ -130,7 +117,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 IntentUtils.gotoActivity(this, SettingActivity::class.java)
             }
         }
-        viewDrawer?.closeDrawer(GravityCompat.START)
+        view_drawer.closeDrawer(GravityCompat.START)
         return false
     }
 

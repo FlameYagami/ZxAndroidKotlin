@@ -13,6 +13,8 @@ import com.zx.uitls.IntentUtils
 import com.zx.uitls.RxBus
 import com.zx.view.dialog.DialogEditText
 import com.zx.view.dialog.DialogVersusPersonal
+import com.zx.view.widget.AppBarView
+import kotlinx.android.synthetic.main.activity_versus_mode.*
 import java.util.*
 
 /**
@@ -28,14 +30,15 @@ class VersusModeActivity : BaseActivity() {
 
     override fun initViewAndData() {
         ButterKnife.bind(this)
+        viewAppBar.setNavigationClickListener(object : AppBarView.NavigationClickListener {
+            override fun onNavigationClick() {
+                onBackPressed()
+            }
+        })
         MyApp.Client?.initPlayer(Random().nextInt().toString())
         MyApp.Client?.start()
 
         RxBus.instance.addSubscription(this, RxBus.instance.toObservable(JoinGameEvent::class.java).subscribe({ this.onJoinRoom(it) }))
-    }
-
-    override fun onNavigationClick() {
-        onBackPressed()
     }
 
     @OnClick(R.id.view_ladder_tournament, R.id.view_versus_freedom, R.id.view_versus_personal)

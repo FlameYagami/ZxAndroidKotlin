@@ -16,13 +16,12 @@ import com.zx.R
 import com.zx.bean.DeckPreviewBean
 import com.zx.game.utils.DeckUtils
 import com.zx.ui.base.BaseRecyclerViewAdapter
-import com.zx.ui.base.BaseRecyclerViewListener
 
 /**
  * Created by 八神火焰 on 2017/2/8.
  */
 
-class DialogDeckPreview(context: Context, private val onDeckClick: (Any, Any) -> Unit) : AlertDialog(context), BaseRecyclerViewListener.OnItemClickListener {
+class DialogDeckPreview(context: Context, private val onDeckClick: (Any, Any) -> Unit) : AlertDialog(context) {
 
     interface OnDeckClick {
         fun getDeck(dialog: DialogDeckPreview, bean: DeckPreviewBean)
@@ -38,10 +37,10 @@ class DialogDeckPreview(context: Context, private val onDeckClick: (Any, Any) ->
         mRecyclerView.layoutManager = GridLayoutManager(context, 5)
         val mRecyclerViewAdapter = RecyclerViewAdapter(context)
         mRecyclerView.adapter = mRecyclerViewAdapter
-        mRecyclerViewAdapter.setOnItemClickListener(this)
+        mRecyclerViewAdapter.setOnItemClickListener { _: View, _: List<*>, _: Int -> this::onItemClick }
     }
 
-    override fun onItemClick(view: View, data: List<*>, position: Int) {
+    fun onItemClick(view: View, data: List<*>, position: Int) {
         val bean = data[position] as DeckPreviewBean
         if (!DeckUtils.checkDeck(bean.numberExList)) {
             Snackbar.make(view, "卡组不符合标准", Snackbar.LENGTH_SHORT).show()
@@ -66,7 +65,7 @@ class DialogDeckPreview(context: Context, private val onDeckClick: (Any, Any) ->
         override fun getView(holder: RecyclerView.ViewHolder, position: Int) {
             val viewHolder = holder as ViewHolder
             val bean = data[position] as DeckPreviewBean
-            viewHolder.viewContent?.setOnClickListener { view -> mOnItemClickListener.onItemClick(viewHolder.viewContent!!, data, position) }
+            viewHolder.viewContent?.setOnClickListener { itemClickListener?.invoke(viewHolder.viewContent!!, data, position) }
             viewHolder.textView?.text = bean.deckName
             Glide.with(context).load(bean.playerPath).error(R.drawable.ic_unknown_picture).into(viewHolder.imageView!!)
         }

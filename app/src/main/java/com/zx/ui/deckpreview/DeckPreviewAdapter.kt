@@ -31,9 +31,9 @@ internal class DeckPreviewAdapter(context: Context) : BaseRecyclerViewAdapter(co
         viewHolder.tvStatusExtra?.text = bean.statusExtra
         viewHolder.tvStatusMain?.setTextColor(if (bean.statusMain == context.getString(R.string.deck_complete)) Color.GREEN else Color.RED)
         viewHolder.tvStatusExtra?.setTextColor(if (bean.statusExtra == context.getString(R.string.deck_complete)) Color.GREEN else Color.RED)
-        viewHolder.linearLayout?.setOnClickListener { mOnItemClickListener.onItemClick(viewHolder.linearLayout!!, data, position) }
+        viewHolder.linearLayout?.setOnClickListener { itemClickListener?.invoke(viewHolder.linearLayout!!, data, position) }
         viewHolder.linearLayout?.setOnLongClickListener {
-            mOnItemLongClickListener.onItemLongClick(viewHolder.linearLayout!!, data, position)
+            itemLongClickListener?.invoke(viewHolder.linearLayout as LinearLayout, data, position)
             false
         }
         Glide.with(context).load(bean.playerPath).error(R.drawable.ic_unknown_picture).into(viewHolder.imgThumbnail!!)

@@ -2,27 +2,20 @@ package com.zx.ui.base
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.Nullable
 import android.support.design.widget.Snackbar
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
-import butterknife.BindView
-import com.zx.R
 import com.zx.config.MyApp
 import com.zx.uitls.AppManager
 import com.zx.uitls.DisplayUtils
 import com.zx.uitls.RxBus
 import com.zx.uitls.StatusBarUtils
 import com.zx.view.dialog.DialogLoading
-import com.zx.view.widget.AppBarView
 import com.zx.view.widget.ToastView
 import me.imid.swipebacklayout.lib.SwipeBackLayout
 
 abstract class BaseActivity : SwipeBackActivity() {
-    @BindView(R.id.viewAppBar)
-    @Nullable
-    internal var viewAppBar: AppBarView? = null
 
     protected var mSwipeBackLayout: SwipeBackLayout? = null
 
@@ -44,12 +37,7 @@ abstract class BaseActivity : SwipeBackActivity() {
 
     abstract val layoutId: Int
 
-    /**
-     * 初始化控件以及装填数据
-     */
     abstract fun initViewAndData()
-
-    abstract fun onNavigationClick()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,11 +47,6 @@ abstract class BaseActivity : SwipeBackActivity() {
         setContentView(layoutId)
         initViewAndData()
         AppManager.getInstances().addActivity(this)
-        viewAppBar?.setNavigationClickListener(object : AppBarView.NavigationClickListener {
-            override fun onNavigationClick() {
-                onNavigationClick()
-            }
-        })
     }
 
     /**

@@ -3,15 +3,13 @@ package com.zx.ui.deckeditor
 import android.app.Activity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import butterknife.*
+import butterknife.BindString
+import butterknife.ButterKnife
+import butterknife.OnClick
+import butterknife.OnLongClick
 import com.bumptech.glide.Glide
-import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import com.zx.R
 import com.zx.bean.CardBean
@@ -25,7 +23,6 @@ import com.zx.game.utils.CardUtils
 import com.zx.game.utils.DeckUtils
 import com.zx.ui.advancedsearch.AdvancedSearchActivity
 import com.zx.ui.base.BaseActivity
-import com.zx.ui.base.BaseRecyclerViewListener
 import com.zx.ui.detail.DetailActivity
 import com.zx.uitls.*
 import com.zx.uitls.database.SQLiteUtils
@@ -33,6 +30,11 @@ import com.zx.uitls.database.SqlUtils
 import com.zx.view.banner.BannerImageLoader
 import com.zx.view.banner.BannerPageChangeListener
 import com.zx.view.widget.AppBarView
+import kotlinx.android.synthetic.main.activity_deck_editor.*
+import kotlinx.android.synthetic.main.include_detail.*
+import kotlinx.android.synthetic.main.include_result_count.*
+import kotlinx.android.synthetic.main.include_search.*
+import kotlinx.android.synthetic.main.include_slv_count.*
 import java.io.File
 
 /**
@@ -40,44 +42,10 @@ import java.io.File
  */
 
 class DeckEditorActivity : BaseActivity() {
-    @BindView(R.id.rv_preview)
-    internal var rvPreview: RecyclerView? = null
-    @BindView(R.id.img_pl)
-    internal var imgPl: ImageView? = null
-    @BindView(R.id.rv_ig)
-    internal var rvIg: RecyclerView? = null
-    @BindView(R.id.rv_ug)
-    internal var rvUg: RecyclerView? = null
-    @BindView(R.id.rv_ex)
-    internal var rvEx: RecyclerView? = null
-    @BindView(R.id.tv_cname)
-    internal var tvCname: TextView? = null
-    @BindView(R.id.tv_number)
-    internal var tvNumber: TextView? = null
-    @BindView(R.id.tv_race)
-    internal var tvRace: TextView? = null
-    @BindView(R.id.tv_power)
-    internal var tvPower: TextView? = null
-    @BindView(R.id.tv_cost)
-    internal var tvCost: TextView? = null
-    @BindView(R.id.tv_ability)
-    internal var tvAbility: TextView? = null
-    @BindView(R.id.banner)
-    internal var banner: Banner? = null
-    @BindView(R.id.txt_search)
-    internal var txtSearch: EditText? = null
     @BindString(R.string.save_succeed)
     internal var saveSucceed: String? = null
     @BindString(R.string.save_failed)
     internal var saveFailed: String? = null
-    @BindView(R.id.tv_result_count)
-    internal var tvResultCount: TextView? = null
-    @BindView(R.id.tv_start_count)
-    internal var tvStartCount: TextView? = null
-    @BindView(R.id.tv_life_count)
-    internal var tvLifeCount: TextView? = null
-    @BindView(R.id.tv_void_count)
-    internal var tvVoidCount: TextView? = null
 
     internal var mPreviewCardAdapter = CardAdapter(this)
     internal var mIgDeckAdapter = DeckAdapter(this)
@@ -91,79 +59,47 @@ class DeckEditorActivity : BaseActivity() {
 
     override fun initViewAndData() {
         ButterKnife.bind(this)
-        viewAppBar?.setMenuClickListener(R.menu.item_deck_editor_menu, MenuClickListener)
+        viewAppBar.setNavigationClickListener(object : AppBarView.NavigationClickListener {
+            override fun onNavigationClick() {
+                onBackPressed()
+            }
+        })
+        viewAppBar.setMenuClickListener(R.menu.item_deck_editor_menu, MenuClickListener)
 
         val minHeightPx = (DisplayUtils.screenWidth - DisplayUtils.dip2px(32f)) / 10 * 7 / 5
-        rvIg?.minimumHeight = minHeightPx
-        rvUg?.minimumHeight = minHeightPx
-        rvEx?.minimumHeight = minHeightPx
-        rvPreview?.minimumHeight = minHeightPx
+        rv_ig.minimumHeight = minHeightPx
+        rv_ug.minimumHeight = minHeightPx
+        rv_ex.minimumHeight = minHeightPx
+        rv_preview.minimumHeight = minHeightPx
 
-        banner?.setBannerStyle(BannerConfig.NUM_INDICATOR)
-        banner?.setImageLoader(BannerImageLoader())
-        banner?.setOnPageChangeListener(bannerPageChangeListener)
+        banner.setBannerStyle(BannerConfig.NUM_INDICATOR)
+        banner.setImageLoader(BannerImageLoader())
+        banner.setOnPageChangeListener(bannerPageChangeListener)
 
-        rvIg?.layoutManager = GridLayoutManager(this, 10)
-        rvIg?.adapter = mIgDeckAdapter
-        mIgDeckAdapter.setOnItemClickListener(object : BaseRecyclerViewListener.OnItemClickListener {
-            override fun onItemClick(view: View, data: List<*>, position: Int) {
-                updateDetailByDeck(view, data, position)
-            }
-        })
-        mIgDeckAdapter.setOnItemLongClickListener(object : BaseRecyclerViewListener.OnItemLongClickListener{
-            override fun onItemLongClick(view: View, data: List<*>, position: Int) {
-                removeCard(view, data, position)
-            }
-        })
+        rv_ig.layoutManager = GridLayoutManager(this, 10)
+        rv_ig.adapter = mIgDeckAdapter
+        mIgDeckAdapter.setOnItemClickListener { _: View, _: List<*>, _: Int -> this::updateDetailByDeck }
+        mIgDeckAdapter.setOnItemLongClickListener { _: View, _: List<*>, _: Int -> this::removeCard }
 
-        rvUg?.layoutManager = GridLayoutManager(this, 10)
-        rvUg?.adapter = mUgDeckAdapter
-        mUgDeckAdapter.setOnItemClickListener(object : BaseRecyclerViewListener.OnItemClickListener {
-            override fun onItemClick(view: View, data: List<*>, position: Int) {
-                updateDetailByDeck(view, data, position)
-            }
-        })
-        mUgDeckAdapter.setOnItemLongClickListener(object : BaseRecyclerViewListener.OnItemLongClickListener{
-            override fun onItemLongClick(view: View, data: List<*>, position: Int) {
-                removeCard(view, data, position)
-            }
-        })
+        rv_ug.layoutManager = GridLayoutManager(this, 10)
+        rv_ug.adapter = mUgDeckAdapter
+        mUgDeckAdapter.setOnItemClickListener { _: View, _: List<*>, _: Int -> this::updateDetailByDeck }
+        mUgDeckAdapter.setOnItemLongClickListener { _: View, _: List<*>, _: Int -> this::removeCard }
 
-        rvEx?.layoutManager = GridLayoutManager(this, 10)
-        rvEx?.adapter = mEgDeckAdapter
-        mEgDeckAdapter.setOnItemClickListener(object : BaseRecyclerViewListener.OnItemClickListener {
-            override fun onItemClick(view: View, data: List<*>, position: Int) {
-                updateDetailByDeck(view, data, position)
-            }
-        })
-        mEgDeckAdapter.setOnItemLongClickListener(object : BaseRecyclerViewListener.OnItemLongClickListener{
-            override fun onItemLongClick(view: View, data: List<*>, position: Int) {
-                removeCard(view, data, position)
-            }
-        })
+        rv_ex.layoutManager = GridLayoutManager(this, 10)
+        rv_ex.adapter = mEgDeckAdapter
+        mEgDeckAdapter.setOnItemClickListener { _: View, _: List<*>, _: Int -> this::updateDetailByDeck }
+        mEgDeckAdapter.setOnItemLongClickListener { _: View, _: List<*>, _: Int -> this::removeCard }
 
-        rvPreview?.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rvPreview?.adapter = mPreviewCardAdapter
-        mPreviewCardAdapter.setOnItemClickListener(object : BaseRecyclerViewListener.OnItemClickListener {
-            override fun onItemClick(view: View, data: List<*>, position: Int) {
-                updateDetailByDeck(view, data, position)
-            }
-        })
-        mPreviewCardAdapter.setOnItemClickListener(object : BaseRecyclerViewListener.OnItemClickListener {
-            override fun onItemClick(view: View, data: List<*>, position: Int) {
-                addCard(view, data, position)
-            }
-        })
-
+        rv_preview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        rv_preview.adapter = mPreviewCardAdapter
+        mPreviewCardAdapter.setOnItemClickListener { _: View, _: List<*>, _: Int -> this::updateDetailByCard }
+        mPreviewCardAdapter.setOnItemClickListener { _: View, _: List<*>, _: Int -> this::addCard }
         mDeckManager = DeckManager(deckPreviewBean?.deckName!!, deckPreviewBean?.numberExList)
         updateAllRecyclerView()
         updateStartAndLifeAndVoid(DeckUtils.getStartAndLifeAndVoidCount(mDeckManager))
 
         RxBus.instance.addSubscription(this, RxBus.instance.toObservable(CardListEvent::class.java).subscribe({ this.updatePreview(it) }))
-    }
-
-    override fun onNavigationClick() {
-        onBackPressed()
     }
 
     @OnClick(R.id.img_pl)
@@ -190,7 +126,7 @@ class DeckEditorActivity : BaseActivity() {
      * 更新查询列表
      */
     private fun updatePreview(cardListEvent: CardListEvent) {
-        tvResultCount?.text = String.format("%s", cardListEvent.cardList.size)
+        tv_result_count.text = String.format("%s", cardListEvent.cardList.size)
         mPreviewCardAdapter.updateData(cardListEvent.cardList)
     }
 
@@ -212,14 +148,14 @@ class DeckEditorActivity : BaseActivity() {
     }
 
     private fun updateDetail(cardBean: CardBean) {
-        tvCname?.text = cardBean.cName
-        tvNumber?.text = cardBean.number
-        tvPower?.text = cardBean.power
-        tvCost?.text = cardBean.cost
-        tvRace?.text = cardBean.race
-        tvAbility?.text = cardBean.ability
-        banner?.setImages(CardUtils.getImagePathList(cardBean.image))
-        banner?.start()
+        tv_cname.text = cardBean.cName
+        tv_number.text = cardBean.number
+        tv_power.text = cardBean.power
+        tv_cost.text = cardBean.cost
+        tv_race.text = cardBean.race
+        tv_ability.text = cardBean.ability
+        banner.setImages(CardUtils.getImagePathList(cardBean.image))
+        banner.start()
     }
 
     private fun addCard(view: View, data: List<*>, position: Int) {
@@ -244,9 +180,9 @@ class DeckEditorActivity : BaseActivity() {
     @OnClick(R.id.fab_search)
     fun onSearch_Click() {
         DisplayUtils.hideKeyboard(this)
-        val querySql = SqlUtils.getKeyQuerySql(txtSearch?.text.toString().trim { it <= ' ' })
+        val querySql = SqlUtils.getKeyQuerySql(txt_search.text.toString().trim { it <= ' ' })
         val cardList = SQLiteUtils.getCardList(querySql)
-        tvResultCount?.text = String.format("%s", cardList.size)
+        tv_start_count.text = String.format("%s", cardList.size)
         mPreviewCardAdapter.updateData(cardList)
         if (cardList.isEmpty()) {
             showToast("没有查询到相关卡牌")
@@ -255,7 +191,7 @@ class DeckEditorActivity : BaseActivity() {
 
     @OnLongClick(R.id.banner)
     fun onBannerPreview_LongClick(): Boolean {
-        val number = tvNumber?.text.toString()
+        val number = tv_number.text.toString()
         DetailActivity.cardBean = CardUtils.getCardBean(number)
         IntentUtils.gotoActivity(this, DetailActivity::class.java)
         return false
@@ -274,7 +210,7 @@ class DeckEditorActivity : BaseActivity() {
         if (operateType == Enum.OperateType.Add) {
             if (areaType == Enum.AreaType.Player) {
                 Glide.with(this).load(PathManager.pictureCache + File.separator + mDeckManager.playerList[0].numberEx + context?.getString(R.string.image_extension).toString())
-                        .error(R.drawable.ic_unknown_picture).into(imgPl!!)
+                        .error(R.drawable.ic_unknown_picture).into(img_pl)
             } else if (areaType == Enum.AreaType.Ig) {
                 mIgDeckAdapter.addData(mDeckManager.igList, mDeckManager.igList.size - 1)
             } else if (areaType == Enum.AreaType.Ug) {
@@ -284,7 +220,7 @@ class DeckEditorActivity : BaseActivity() {
             }
         } else {
             if (areaType == Enum.AreaType.Player) {
-                imgPl?.setImageBitmap(null)
+                img_pl.setImageBitmap(null)
             } else if (areaType == Enum.AreaType.Ig) {
                 mIgDeckAdapter.removeData(mDeckManager.igList, position)
             } else if (areaType == Enum.AreaType.Ug) {
@@ -297,7 +233,7 @@ class DeckEditorActivity : BaseActivity() {
 
     private fun updateAllRecyclerView() {
         if (mDeckManager.playerList.isNotEmpty()) {
-            Glide.with(this).load(PathManager.pictureCache + File.separator + mDeckManager.playerList[0].numberEx + context?.getString(R.string.image_extension)).error(null).into(imgPl!!)
+            Glide.with(this).load(PathManager.pictureCache + File.separator + mDeckManager.playerList[0].numberEx + context?.getString(R.string.image_extension)).error(null).into(img_pl)
         }
         mIgDeckAdapter.updateData(mDeckManager.igList)
         mUgDeckAdapter.updateData(mDeckManager.ugList)
@@ -308,9 +244,9 @@ class DeckEditorActivity : BaseActivity() {
         val startCount = countStartAndLifeAndVoid[0]
         val lifeCount = countStartAndLifeAndVoid[1]
         val voidCount = countStartAndLifeAndVoid[2]
-        tvStartCount?.text = String.format("%s", startCount)
-        tvLifeCount?.text = String.format("%s", lifeCount)
-        tvVoidCount?.text = String.format("%s", voidCount)
+        tv_life_count.text = String.format("%s", startCount)
+        tv_life_count.text = String.format("%s", lifeCount)
+        tv_void_count.text = String.format("%s", voidCount)
     }
 
     private val MenuClickListener = object : AppBarView.MenuClickListener {

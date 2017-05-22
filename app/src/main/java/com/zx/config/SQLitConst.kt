@@ -8,8 +8,8 @@ interface SQLitConst {
     companion object {
         val TableName = "TableCard"
         val ColumnMd5 = "Md5"
-        val ColumnType = "type"
-        val ColumnCamp = "camp"
+        val ColumnType = "Type"
+        val ColumnCamp = "Camp"
         val ColumnRace = "Race"
         val ColumnSign = "Sign"
         val ColumnRare = "Rare"

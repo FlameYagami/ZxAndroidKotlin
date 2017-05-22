@@ -1,24 +1,22 @@
 package com.zx.ui.deckpreview
 
-import android.support.design.widget.CoordinatorLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import butterknife.BindString
-import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.zx.R
 import com.zx.bean.DeckPreviewBean
 import com.zx.game.utils.DeckUtils
 import com.zx.ui.base.BaseActivity
-import com.zx.ui.base.BaseRecyclerViewListener
 import com.zx.ui.deckeditor.DeckEditorActivity
 import com.zx.uitls.FileUtils
 import com.zx.uitls.IntentUtils
 import com.zx.uitls.JsonUtils
 import com.zx.view.dialog.DialogEditText
+import com.zx.view.widget.AppBarView
+import kotlinx.android.synthetic.main.activity_deck_preview.*
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -28,11 +26,7 @@ import java.util.*
  * Created by 八神火焰 on 2016/12/21.
  */
 
-class DeckPreviewActivity : BaseActivity(), BaseRecyclerViewListener.OnItemClickListener, BaseRecyclerViewListener.OnItemLongClickListener {
-    @BindView(R.id.view_content)
-    internal var viewContent: CoordinatorLayout? = null
-    @BindView(R.id.rv_deckpreview)
-    internal var rvDeckPreview: RecyclerView? = null
+class DeckPreviewActivity : BaseActivity() {
     @BindString(R.string.add_succeed)
     internal var addSucceed: String? = null
     @BindString(R.string.update_succeed)
@@ -49,17 +43,18 @@ class DeckPreviewActivity : BaseActivity(), BaseRecyclerViewListener.OnItemClick
 
     override fun initViewAndData() {
         ButterKnife.bind(this)
+        viewAppBar.setNavigationClickListener(object : AppBarView.NavigationClickListener {
+            override fun onNavigationClick() {
+                onBackPressed()
+            }
+        })
         val linearLayoutManager = LinearLayoutManager(this)
         mDeckPreviewAdapter = DeckPreviewAdapter(this)
-        rvDeckPreview?.layoutManager = linearLayoutManager
-        rvDeckPreview?.adapter = mDeckPreviewAdapter
+        rv_deckpreview.layoutManager = linearLayoutManager
+        rv_deckpreview.adapter = mDeckPreviewAdapter
 
-        mDeckPreviewAdapter.setOnItemClickListener(this)
-        mDeckPreviewAdapter.setOnItemLongClickListener(this)
-    }
-
-    override fun onNavigationClick() {
-        onBackPressed()
+        mDeckPreviewAdapter.setOnItemClickListener { _: View, _: List<*>, _: Int -> this::onItemClick }
+        mDeckPreviewAdapter.setOnItemLongClickListener { _: View, _: List<*>, _: Int -> this::onItemLongClick }
     }
 
     override fun onResume() {
@@ -79,20 +74,20 @@ class DeckPreviewActivity : BaseActivity(), BaseRecyclerViewListener.OnItemClick
                     FileUtils.writeFile(JsonUtils.serializer(ArrayList<String>()), DeckUtils.getDeckPath(content))
                     mDeckPreviewAdapter.updateData(DeckUtils.deckPreviewList)
                     dialog.dismiss()
-                    showSnackBar(viewContent!!, addSucceed.toString())
+                    showSnackBar(view_content, addSucceed.toString())
                 } else {
-                    showSnackBar(viewContent!!, deckNameExits.toString())
+                    showSnackBar(view_content, deckNameExits.toString())
                 }
             }
         }).show()
     }
 
-    override fun onItemClick(view: View, data: List<*>, position: Int) {
+    fun onItemClick(view: View, data: List<*>, position: Int) {
         DeckEditorActivity.deckPreviewBean = data[position] as DeckPreviewBean
         IntentUtils.gotoActivity(this, DeckEditorActivity::class.java)
     }
 
-    override fun onItemLongClick(view: View, data: List<*>, position: Int) {
+    fun onItemLongClick(view: View, data: List<*>, position: Int) {
         AlertDialog.Builder(this).setItems(arrayOf("重命名", "卡组另存", "卡组删除")) { dialog, which ->
             dialog.dismiss()
             if (which == 0) {
@@ -121,9 +116,9 @@ class DeckPreviewActivity : BaseActivity(), BaseRecyclerViewListener.OnItemClick
                     FileUtils.renameFile(DeckUtils.getDeckPath(deckName), DeckUtils.getDeckPath(content))
                     mDeckPreviewAdapter.updateData(DeckUtils.deckPreviewList)
                     dialog.dismiss()
-                    showSnackBar(viewContent!!, updateSucceed.toString())
+                    showSnackBar(view_content, updateSucceed.toString())
                 } else {
-                    showSnackBar(viewContent!!, deckNameExits.toString())
+                    showSnackBar(view_content, deckNameExits.toString())
                 }
             }
         }).show()
@@ -145,9 +140,9 @@ class DeckPreviewActivity : BaseActivity(), BaseRecyclerViewListener.OnItemClick
                     FileUtils.copyFile(DeckUtils.getDeckPath(deckName), DeckUtils.getDeckPath(content))
                     mDeckPreviewAdapter.updateData(DeckUtils.deckPreviewList)
                     dialog.dismiss()
-                    showSnackBar(viewContent!!, getString(R.string.copy_succeed))
+                    showSnackBar(view_content, getString(R.string.copy_succeed))
                 } else {
-                    showSnackBar(viewContent!!, deckNameExits.toString())
+                    showSnackBar(view_content, deckNameExits.toString())
                 }
             }
         }).show()
@@ -164,7 +159,7 @@ class DeckPreviewActivity : BaseActivity(), BaseRecyclerViewListener.OnItemClick
         val deckName = (data[position] as DeckPreviewBean).deckName
         FileUtils.deleteFile(DeckUtils.getDeckPath(deckName))
         mDeckPreviewAdapter.updateData(DeckUtils.deckPreviewList)
-        showSnackBar(viewContent!!, deleteSucceed!!)
+        showSnackBar(view_content, deleteSucceed!!)
     }
 
     companion object {

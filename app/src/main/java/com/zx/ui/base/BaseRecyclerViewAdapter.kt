@@ -18,15 +18,15 @@ abstract class BaseRecyclerViewAdapter protected constructor(protected var conte
 
     protected abstract fun getView(holder: RecyclerView.ViewHolder, position: Int)
     protected var data: List<*> = ArrayList<Any>()
-    protected var mOnItemClickListener: BaseRecyclerViewListener.OnItemClickListener = null!!
-    protected var mOnItemLongClickListener: BaseRecyclerViewListener.OnItemLongClickListener
+    var itemClickListener: ((view: View, data: List<*>, position: Int) -> Unit)? = null
+    var itemLongClickListener: ((view: View, data: List<*>, position: Int) -> Unit)? = null
 
-    fun setOnItemClickListener(mListener: BaseRecyclerViewListener.OnItemClickListener) {
-        this.mOnItemClickListener = mListener
+    fun setOnItemClickListener(mListener: (view: View, data: List<*>, position: Int) -> Unit) {
+        this.itemClickListener = mListener
     }
 
-    fun setOnItemLongClickListener(mListener: BaseRecyclerViewListener.OnItemLongClickListener) {
-        this.mOnItemLongClickListener = mListener
+    fun setOnItemLongClickListener(mListener: (view: View, data: List<*>, position: Int) -> Unit) {
+        this.itemLongClickListener = mListener
     }
 
     fun updateData(data: List<*>) {

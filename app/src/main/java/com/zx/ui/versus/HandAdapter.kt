@@ -32,7 +32,7 @@ class HandAdapter internal constructor(context: Context) : BaseRecyclerViewAdapt
         viewHolder.viewBottom?.visibility = if (handBean.isBottomVisible) View.VISIBLE else View.GONE
         viewHolder.imgThumbnail?.setOnClickListener { view ->
             setItemVisible(position)
-            mOnItemClickListener.onItemClick(view, data, position)
+            itemClickListener?.invoke(view, data, position)
         }
         Glide.with(context).load(handBean.duelBean.thumbnailPath).error(R.drawable.ic_unknown_picture).into(viewHolder.imgThumbnail!!)
     }
