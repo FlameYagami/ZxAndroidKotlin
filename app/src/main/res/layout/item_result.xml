@@ -13,13 +13,24 @@
         android:orientation="horizontal">
 
         <FrameLayout
-            android:layout_width="50dp"
-            android:layout_height="70dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin">
 
-            <include layout="@layout/item_deck_editor"/>
+            <ImageView
+                android:id="@+id/img_thumbnail"
+                android:layout_width="50dp"
+                android:layout_height="70dp"/>
+
+            <ImageView
+                android:id="@+id/img_restrict"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_margin="2dp"
+                android:src="@drawable/ic_restrict"
+                android:visibility="gone"/>
         </FrameLayout>
 
         <LinearLayout
@@ -48,7 +59,7 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_camp_result"
+                    android:id="@+id/tv_camp"
                     style="@style/layout_wrap_content"
                     android:layout_width="wrap_content"
                     android:gravity="center_vertical"
@@ -56,7 +67,7 @@
                     android:textSize="@dimen/message_size"/>
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_race_result"
+                    android:id="@+id/tv_race"
                     style="@style/layout_wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -73,7 +84,7 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_cost_result"
+                    android:id="@+id/tv_cost"
                     style="@style/layout_wrap_content"
                     android:layout_width="wrap_content"
                     android:gravity="center_vertical"
@@ -81,7 +92,7 @@
                     android:textSize="@dimen/message_size"/>
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_power_result"
+                    android:id="@+id/tv_power"
                     style="@style/layout_wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"

@@ -6,16 +6,12 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.zx.R
 import com.zx.bean.DeckPreviewBean
 import com.zx.game.utils.DeckUtils
 import com.zx.ui.base.BaseRecyclerViewAdapter
+import kotlinx.android.synthetic.main.item_dialog_deck_preview.view.*
 
 /**
  * Created by 八神火焰 on 2017/2/8.
@@ -29,7 +25,6 @@ class DialogDeckPreview(context: Context, private val onDeckClick: (Any, Any) ->
 
     init {
         val view = View.inflate(context, R.layout.dialog_deck_preview, null)
-        ButterKnife.bind(this, view)
 
         setView(view)
         setTitle("卡组选择")
@@ -72,15 +67,8 @@ class DialogDeckPreview(context: Context, private val onDeckClick: (Any, Any) ->
     }
 
     internal class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        @BindView(R.id.view_content)
-        var viewContent: LinearLayout? = null
-        @BindView(R.id.imageView)
-        var imageView: ImageView? = null
-        @BindView(R.id.textView)
-        var textView: TextView? = null
-
-        init {
-            ButterKnife.bind(this, itemView)
-        }
+        var viewContent = itemView.view_content
+        var imageView = itemView.imageView
+        var textView = itemView.textView
     }
 }

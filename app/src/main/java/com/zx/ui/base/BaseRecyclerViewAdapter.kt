@@ -17,7 +17,9 @@ abstract class BaseRecyclerViewAdapter protected constructor(protected var conte
     protected abstract fun getViewHolder(view: View): RecyclerView.ViewHolder
 
     protected abstract fun getView(holder: RecyclerView.ViewHolder, position: Int)
+
     protected var data: List<*> = ArrayList<Any>()
+
     var itemClickListener: ((view: View, data: List<*>, position: Int) -> Unit)? = null
     var itemLongClickListener: ((view: View, data: List<*>, position: Int) -> Unit)? = null
 

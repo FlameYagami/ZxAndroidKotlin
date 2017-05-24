@@ -91,7 +91,7 @@ class AppManager {
         private var activityStack: Stack<Activity>? = null
         private var mInstance: AppManager? = null
 
-        fun getInstances(): AppManager {
+        fun instance(): AppManager {
             if (mInstance == null) {
                 mInstance = AppManager()
             }

@@ -6,10 +6,10 @@ import android.support.design.widget.Snackbar
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import com.michaelflisar.rxbus2.rx.RxDisposableManager
 import com.zx.config.MyApp
 import com.zx.uitls.AppManager
 import com.zx.uitls.DisplayUtils
-import com.zx.uitls.RxBus
 import com.zx.uitls.StatusBarUtils
 import com.zx.view.dialog.DialogLoading
 import com.zx.view.widget.ToastView
@@ -46,7 +46,7 @@ abstract class BaseActivity : SwipeBackActivity() {
         StatusBarUtils.enableTranslucentStatusBar(this)
         setContentView(layoutId)
         initViewAndData()
-        AppManager.getInstances().addActivity(this)
+        AppManager.instance().addActivity(this)
     }
 
     /**
@@ -67,7 +67,7 @@ abstract class BaseActivity : SwipeBackActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        RxBus.instance.unSubscribe(this)
-        AppManager.getInstances().finishActivity(this)
+        RxDisposableManager.unsubscribe(this)
+        AppManager.instance().finishActivity(this)
     }
 }

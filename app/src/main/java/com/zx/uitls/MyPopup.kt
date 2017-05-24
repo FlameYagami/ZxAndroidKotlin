@@ -4,9 +4,9 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.zx.R
+import kotlinx.android.synthetic.main.popupwindow_hand.view.*
+import org.jetbrains.anko.sdk25.coroutines.onClick
 
 /**
  * Created by 八神火焰 on 2017/1/14.
@@ -30,15 +30,14 @@ class MyPopup(context: Context, layoutId: Int) : PopupWindow() {
 
     inner class HandViewHolder internal constructor(view: View) {
         init {
-            ButterKnife.bind(this, view)
+            view.popup_set.onClick { Set_Click() }
+            view.popup_launch.onClick { Launch_Click() }
         }
 
-        @OnClick(R.id.popup_set)
         fun Set_Click() {
             dismiss()
         }
 
-        @OnClick(R.id.popup_launch)
         fun Launch_Click() {
             dismiss()
         }

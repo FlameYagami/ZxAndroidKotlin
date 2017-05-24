@@ -60,7 +60,7 @@ object FileUtils {
         try {
             val inputStream = context?.resources?.openRawResource(resId)
             // 条件同时满足 压缩文件存在、压缩文件大小未变、不进行覆盖操作
-            if (file.exists() && SpUtil.instances.getInt(childPath) == inputStream?.available() && !isCover) {
+            if (file.exists() && SpUtil.instance.getInt(childPath) == inputStream?.available() && !isCover) {
                 inputStream.close()
                 return
             }
@@ -81,7 +81,7 @@ object FileUtils {
             }
             inputStream.close()
             outputStream.close()
-            SpUtil.instances.putInt(childPath, available as Int)
+            SpUtil.instance.putInt(childPath, available as Int)
             LogUtils.e(TAG, "copyRaw->Succeed")
         } catch (e: Exception) {
             e.printStackTrace()
@@ -106,7 +106,7 @@ object FileUtils {
         try {
             val inputStream = context?.resources?.assets?.open(fileName)
             // 条件同时满足 压缩文件存在、压缩文件大小未变、不进行覆盖操作
-            if (file.exists() && SpUtil.instances.getInt(outPath) == inputStream?.available() && !isCover) {
+            if (file.exists() && SpUtil.instance.getInt(outPath) == inputStream?.available() && !isCover) {
                 inputStream.close()
                 return
             }
@@ -126,7 +126,7 @@ object FileUtils {
             }
             inputStream?.close()
             outputStream.close()
-            SpUtil.instances.putInt(outPath, available as Int)
+            SpUtil.instance.putInt(outPath, available as Int)
             LogUtils.i(TAG, "copyRaw->Succeed")
         } catch (e: Exception) {
             e.printStackTrace()

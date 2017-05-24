@@ -5,11 +5,9 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
-import butterknife.BindString
-import butterknife.ButterKnife
-import butterknife.OnClick
-import butterknife.OnLongClick
 import com.bumptech.glide.Glide
+import com.michaelflisar.rxbus2.RxBusBuilder
+import com.michaelflisar.rxbus2.rx.RxDisposableManager
 import com.youth.banner.BannerConfig
 import com.zx.R
 import com.zx.bean.CardBean
@@ -24,28 +22,27 @@ import com.zx.game.utils.DeckUtils
 import com.zx.ui.advancedsearch.AdvancedSearchActivity
 import com.zx.ui.base.BaseActivity
 import com.zx.ui.detail.DetailActivity
-import com.zx.uitls.*
+import com.zx.uitls.BundleUtils
+import com.zx.uitls.DisplayUtils
+import com.zx.uitls.IntentUtils
+import com.zx.uitls.PathManager
 import com.zx.uitls.database.SQLiteUtils
 import com.zx.uitls.database.SqlUtils
 import com.zx.view.banner.BannerImageLoader
 import com.zx.view.banner.BannerPageChangeListener
-import com.zx.view.widget.AppBarView
 import kotlinx.android.synthetic.main.activity_deck_editor.*
 import kotlinx.android.synthetic.main.include_detail.*
 import kotlinx.android.synthetic.main.include_result_count.*
 import kotlinx.android.synthetic.main.include_search.*
 import kotlinx.android.synthetic.main.include_slv_count.*
+import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.sdk25.coroutines.onLongClick
 import java.io.File
 
 /**
  * Created by 八神火焰 on 2016/12/21.
  */
-
 class DeckEditorActivity : BaseActivity() {
-    @BindString(R.string.save_succeed)
-    internal var saveSucceed: String? = null
-    @BindString(R.string.save_failed)
-    internal var saveFailed: String? = null
 
     internal var mPreviewCardAdapter = CardAdapter(this)
     internal var mIgDeckAdapter = DeckAdapter(this)
@@ -54,17 +51,21 @@ class DeckEditorActivity : BaseActivity() {
     internal var bannerPageChangeListener = BannerPageChangeListener()
     internal var mDeckManager: DeckManager = null!!
 
+    companion object {
+        private val TAG = DeckEditorActivity::class.java.simpleName
+        var deckPreviewBean: DeckPreviewBean? = null
+        var mSaveSucceed: String? = null
+        var mSaveFailed: String? = null
+    }
+
     override val layoutId: Int
         get() = R.layout.activity_deck_editor
 
     override fun initViewAndData() {
-        ButterKnife.bind(this)
-        viewAppBar.setNavigationClickListener(object : AppBarView.NavigationClickListener {
-            override fun onNavigationClick() {
-                onBackPressed()
-            }
-        })
-        viewAppBar.setMenuClickListener(R.menu.item_deck_editor_menu, MenuClickListener)
+        mSaveSucceed = resources.getString(R.string.save_succeed)
+        mSaveFailed = resources.getString(R.string.save_failed)
+        viewAppBar.setNavigationClickListener { onBackPressed() }
+        viewAppBar.setMenuClickListener(R.menu.item_deck_editor_menu, { _: MenuItem -> this::onMenuClick })
 
         val minHeightPx = (DisplayUtils.screenWidth - DisplayUtils.dip2px(32f)) / 10 * 7 / 5
         rv_ig.minimumHeight = minHeightPx
@@ -98,11 +99,15 @@ class DeckEditorActivity : BaseActivity() {
         mDeckManager = DeckManager(deckPreviewBean?.deckName!!, deckPreviewBean?.numberExList)
         updateAllRecyclerView()
         updateStartAndLifeAndVoid(DeckUtils.getStartAndLifeAndVoidCount(mDeckManager))
+        RxDisposableManager.addDisposable(this, RxBusBuilder.create(CardListEvent::class.java).subscribe({ this.updatePreview(it) }))
 
-        RxBus.instance.addSubscription(this, RxBus.instance.toObservable(CardListEvent::class.java).subscribe({ this.updatePreview(it) }))
+        img_pl.onClick { onPlayer_Click() }
+        img_pl.onLongClick { onPlayer_LongClick() }
+        fab_search.onClick { onSearch_Click() }
+        banner.onClick { onBannerPreview_LongClick() }
+        btn_deck_save.onClick { onDeckSave_Click() }
     }
 
-    @OnClick(R.id.img_pl)
     fun onPlayer_Click() {
         if (mDeckManager.playerList.isNotEmpty()) {
             val deckBean = mDeckManager.playerList[0]
@@ -111,7 +116,6 @@ class DeckEditorActivity : BaseActivity() {
         }
     }
 
-    @OnLongClick(R.id.img_pl)
     fun onPlayer_LongClick(): Boolean {
         if (mDeckManager.playerList.isNotEmpty()) {
             val deckBean = mDeckManager.playerList[0]
@@ -177,7 +181,6 @@ class DeckEditorActivity : BaseActivity() {
         updateStartAndLifeAndVoid(DeckUtils.getStartAndLifeAndVoidCount(mDeckManager))
     }
 
-    @OnClick(R.id.fab_search)
     fun onSearch_Click() {
         DisplayUtils.hideKeyboard(this)
         val querySql = SqlUtils.getKeyQuerySql(txt_search.text.toString().trim { it <= ' ' })
@@ -189,7 +192,6 @@ class DeckEditorActivity : BaseActivity() {
         }
     }
 
-    @OnLongClick(R.id.banner)
     fun onBannerPreview_LongClick(): Boolean {
         val number = tv_number.text.toString()
         DetailActivity.cardBean = CardUtils.getCardBean(number)
@@ -197,9 +199,8 @@ class DeckEditorActivity : BaseActivity() {
         return false
     }
 
-    @OnClick(R.id.btn_deck_save)
     fun onDeckSave_Click() {
-        showToast(if (DeckUtils.saveDeck(mDeckManager)) saveSucceed!! else saveFailed!!)
+        showToast(if (DeckUtils.saveDeck(mDeckManager)) mSaveSucceed!! else mSaveFailed!!)
     }
 
     private fun updateSingleRecyclerView(areaType: Enum.AreaType, operateType: Enum.OperateType, position: Int) {
@@ -249,27 +250,18 @@ class DeckEditorActivity : BaseActivity() {
         tv_void_count.text = String.format("%s", voidCount)
     }
 
-    private val MenuClickListener = object : AppBarView.MenuClickListener {
-        override fun onMenuClick(item: MenuItem) {
-            when (item.itemId) {
-                R.id.nav_advanced_search -> IntentUtils.gotoActivity(this@DeckEditorActivity, AdvancedSearchActivity::class.java,
-                        BundleUtils.putString(Activity::class.java.simpleName, DeckEditorActivity::class.java.simpleName))
-                R.id.nav_order_by_value -> {
-                    mDeckManager.orderDeck(Enum.DeckOrderType.Value)
-                    updateAllRecyclerView()
-                }
-                R.id.nav_order_by_random -> {
-                    mDeckManager.orderDeck(Enum.DeckOrderType.Random)
-                    updateAllRecyclerView()
-                }
+    fun onMenuClick(item: MenuItem) {
+        when (item.itemId) {
+            R.id.nav_advanced_search -> IntentUtils.gotoActivity(this@DeckEditorActivity, AdvancedSearchActivity::class.java,
+                    BundleUtils.putString(Activity::class.java.simpleName, DeckEditorActivity::class.java.simpleName))
+            R.id.nav_order_by_value -> {
+                mDeckManager.orderDeck(Enum.DeckOrderType.Value)
+                updateAllRecyclerView()
+            }
+            R.id.nav_order_by_random -> {
+                mDeckManager.orderDeck(Enum.DeckOrderType.Random)
+                updateAllRecyclerView()
             }
         }
-    }
-
-    companion object {
-
-        private val TAG = DeckEditorActivity::class.java.simpleName
-
-        var deckPreviewBean: DeckPreviewBean? = null
     }
 }

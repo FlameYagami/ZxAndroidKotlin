@@ -1,5 +1,6 @@
 package com.zx.game.message
 
+import com.michaelflisar.rxbus2.RxBus
 import com.zx.config.MyApp
 import com.zx.event.*
 import com.zx.game.Client
@@ -8,7 +9,6 @@ import com.zx.game.Player
 import com.zx.game.enums.PlayerChange
 import com.zx.game.enums.PlayerType
 import com.zx.game.enums.ServiceMessage
-import com.zx.uitls.RxBus
 
 /**
  * Created by 八神火焰 on 2017/2/11.
@@ -34,7 +34,7 @@ internal class ModBusAnalyser {
      * 开始游戏
      */
     private fun onStartGame(servicePacket: ServicePacket) {
-        RxBus.instance.post(StartGameEvent())
+        RxBus.get().send(StartGameEvent())
     }
 
     /**
@@ -47,7 +47,7 @@ internal class ModBusAnalyser {
             val playerName = servicePacket.readStringToEnd()
             val player = Player(playerType, playerName)
             // 对已经在房间的玩家发送其他玩家进入的消息
-            RxBus.instance.post(EnterGameEvent(player))
+            RxBus.get().send(EnterGameEvent(player))
             if (null != MyApp.Client?.Game) {
                 (MyApp.Client as Client).Game?.updateDuelist(player)
             }
@@ -65,9 +65,9 @@ internal class ModBusAnalyser {
             // Game中的本地玩家取自索引
             MyApp.Client?.Player?.type = playerType
             MyApp.Client?.createGame(roomId.toString(), (MyApp.Client as Client).Player as Player)
-            RxBus.instance.post(JoinGameEvent(playerType))
+            RxBus.get().send(JoinGameEvent(playerType))
         } else {
-            RxBus.instance.post(JoinGameEvent(playerType, false))
+            RxBus.get().send(JoinGameEvent(playerType, false))
         }
     }
 
@@ -87,14 +87,14 @@ internal class ModBusAnalyser {
         val isReady = servicePacket.readByte() == PlayerChange.Ready
         MyApp.Client?.Game?.setPlayerReady(playerType, isReady)
         // 向界面告知选手状态改变
-        RxBus.instance.post(DuelistStateEvent())
+        RxBus.get().send(DuelistStateEvent())
     }
 
     private fun onLeaveGame(servicePacket: ServicePacket) {
         val playerType = servicePacket.readByte()
         val playerName = servicePacket.readStringToEnd()
         // 向界面告知选手离开
-        RxBus.instance.post(LeaveGameEvent(Player(playerType, playerName), MyApp.Client?.Player?.type as Byte))
+        RxBus.get().send(LeaveGameEvent(Player(playerType, playerName), MyApp.Client?.Player?.type as Byte))
         // 对应本地用户准备状态更新
         if (playerType == (MyApp.Client as Client).Player?.type) {
             (MyApp.Client as Client).leaveGame()

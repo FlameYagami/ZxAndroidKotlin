@@ -1,8 +1,6 @@
 package com.zx.ui.detail
 
 import android.widget.ImageView
-import butterknife.BindViews
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.youth.banner.BannerConfig
 import com.zx.R
@@ -10,7 +8,6 @@ import com.zx.bean.CardBean
 import com.zx.game.utils.CardUtils
 import com.zx.ui.base.BaseActivity
 import com.zx.view.banner.BannerImageLoader
-import com.zx.view.widget.AppBarView
 import kotlinx.android.synthetic.main.activity_detail.*
 
 /**
@@ -19,19 +16,17 @@ import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : BaseActivity() {
 
-    @BindViews(R.id.img_camp0, R.id.img_camp1, R.id.img_camp2, R.id.img_camp3, R.id.img_camp4)
-    internal var imgCampList: Array<ImageView>? = null
+    companion object {
+        internal var mImgCampList: Array<ImageView>? = null
+        var cardBean: CardBean? = null
+    }
 
     override val layoutId: Int
         get() = R.layout.activity_detail
 
     override fun initViewAndData() {
-        ButterKnife.bind(this)
-        viewAppBar.setNavigationClickListener(object : AppBarView.NavigationClickListener {
-            override fun onNavigationClick() {
-                onBackPressed()
-            }
-        })
+        mImgCampList = arrayOf(img_camp0, img_camp1, img_camp2, img_camp3, img_camp4)
+        viewAppBar.setNavigationClickListener { onBackPressed() }
         setCardBean()
     }
 
@@ -47,13 +42,6 @@ class DetailActivity : BaseActivity() {
         tv_lines.text = cardBean?.lines
         tv_faq.text = cardBean?.faq
         tv_rare.text = cardBean?.rare
-        //        int rareResId = CardUtils.getRareResIdList(cardBean.getRare());
-        //        if (-1 == rareResId) {
-        //            imgSign.setImageBitmap(null);
-        //        } else {
-        //            Glide.with(this).load(rareResId).error(null).into(imgRare);
-        //        }
-
         banner.setBannerStyle(BannerConfig.NUM_INDICATOR)
         banner.setImageLoader(BannerImageLoader())
         banner.setImages(CardUtils.getImagePathList(cardBean?.image!!))
@@ -68,15 +56,10 @@ class DetailActivity : BaseActivity() {
         }
         for (i in campResIdList.indices) {
             if (-1 == campResIdList[i]) {
-                imgCampList!![i].setImageBitmap(null)
+                mImgCampList!![i].setImageBitmap(null)
             } else {
-                Glide.with(this).load(campResIdList[i]).error(null).into(imgCampList!![i])
+                Glide.with(this).load(campResIdList[i]).error(null).into(mImgCampList!![i])
             }
         }
-    }
-
-    companion object {
-
-        var cardBean: CardBean? = null
     }
 }

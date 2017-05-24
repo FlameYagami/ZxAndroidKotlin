@@ -2,26 +2,21 @@ package com.zx.view.widget
 
 import android.content.Context
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.zx.R
+import kotlinx.android.synthetic.main.widget_toast.view.*
 
 /**
  * Created by 八神火焰 on 2017/3/1.
  */
 
 class ToastView private constructor(context: Context, text: CharSequence, duration: Int) {
-    @BindView(R.id.textView)
-    internal var textView: TextView? = null
 
     private val mToast: Toast?
 
     init {
-        val view = View.inflate(context, R.layout.weight_toast, null)
-        ButterKnife.bind(this, view)
-        textView?.text = text
+        val view = View.inflate(context, R.layout.widget_toast, null)
+        view.tv_value.text = text
         mToast = Toast(context)
         mToast.duration = duration
         mToast.view = view

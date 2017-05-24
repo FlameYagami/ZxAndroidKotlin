@@ -3,9 +3,6 @@ package com.zx.ui.deckpreview
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import butterknife.BindString
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.zx.R
 import com.zx.bean.DeckPreviewBean
 import com.zx.game.utils.DeckUtils
@@ -15,11 +12,11 @@ import com.zx.uitls.FileUtils
 import com.zx.uitls.IntentUtils
 import com.zx.uitls.JsonUtils
 import com.zx.view.dialog.DialogEditText
-import com.zx.view.widget.AppBarView
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_deck_preview.*
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.util.*
 
 /**
@@ -27,27 +24,25 @@ import java.util.*
  */
 
 class DeckPreviewActivity : BaseActivity() {
-    @BindString(R.string.add_succeed)
-    internal var addSucceed: String? = null
-    @BindString(R.string.update_succeed)
-    internal var updateSucceed: String? = null
-    @BindString(R.string.delete_succeed)
-    internal var deleteSucceed: String? = null
-    @BindString(R.string.deck_name_exits)
-    internal var deckNameExits: String? = null
-
     internal var mDeckPreviewAdapter: DeckPreviewAdapter = null!!
+
+    companion object {
+        private val TAG = DeckPreviewActivity::class.java.simpleName
+        internal var mAddSucceed: String? = null
+        internal var mUpdateSucceed: String? = null
+        internal var mDeleteSucceed: String? = null
+        internal var mDeckNameExits: String? = null
+    }
 
     override val layoutId: Int
         get() = R.layout.activity_deck_preview
 
     override fun initViewAndData() {
-        ButterKnife.bind(this)
-        viewAppBar.setNavigationClickListener(object : AppBarView.NavigationClickListener {
-            override fun onNavigationClick() {
-                onBackPressed()
-            }
-        })
+        mAddSucceed = resources.getString(R.string.add_succeed)
+        mUpdateSucceed = resources.getString(R.string.update_succeed)
+        mDeleteSucceed = resources.getString(R.string.delete_succeed)
+        mDeckNameExits = resources.getString(R.string.deck_name_exits)
+        viewAppBar.setNavigationClickListener { onBackPressed() }
         val linearLayoutManager = LinearLayoutManager(this)
         mDeckPreviewAdapter = DeckPreviewAdapter(this)
         rv_deckpreview.layoutManager = linearLayoutManager
@@ -55,29 +50,30 @@ class DeckPreviewActivity : BaseActivity() {
 
         mDeckPreviewAdapter.setOnItemClickListener { _: View, _: List<*>, _: Int -> this::onItemClick }
         mDeckPreviewAdapter.setOnItemLongClickListener { _: View, _: List<*>, _: Int -> this::onItemLongClick }
+        fab_add.onClick { onAdd_Click() }
     }
 
     override fun onResume() {
         super.onResume()
-        Observable.just<List<DeckPreviewBean>>(DeckUtils.deckPreviewList).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe { deckPreviewBeanList -> mDeckPreviewAdapter.updateData(deckPreviewBeanList) }
+        Observable.just(DeckUtils.deckPreviewList)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { deckPreviewBeanList -> mDeckPreviewAdapter.updateData(deckPreviewBeanList) }
     }
 
     /**
      * 卡组添加
      */
-    @OnClick(R.id.fab_add)
     fun onAdd_Click() {
-        DialogEditText(this, getString(R.string.deck_name), "", getString(R.string.deck_name_hint), object : DialogEditText.OnButtonClick {
-            override fun getText(dialog: DialogEditText, content: String) {
-                val checkDeckName = DeckUtils.checkDeckName(content)
-                if (!checkDeckName) {
-                    FileUtils.writeFile(JsonUtils.serializer(ArrayList<String>()), DeckUtils.getDeckPath(content))
-                    mDeckPreviewAdapter.updateData(DeckUtils.deckPreviewList)
-                    dialog.dismiss()
-                    showSnackBar(view_content, addSucceed.toString())
-                } else {
-                    showSnackBar(view_content, deckNameExits.toString())
-                }
+        DialogEditText(this, getString(R.string.deck_name), "", getString(R.string.deck_name_hint), { dialog, content ->
+            val checkDeckName = DeckUtils.checkDeckName(content)
+            if (!checkDeckName) {
+                FileUtils.writeFile(JsonUtils.serializer(ArrayList<String>()), DeckUtils.getDeckPath(content))
+                mDeckPreviewAdapter.updateData(DeckUtils.deckPreviewList)
+                dialog.dismiss()
+                showSnackBar(view_content, mAddSucceed.toString())
+            } else {
+                showSnackBar(view_content, mDeckNameExits.toString())
             }
         }).show()
     }
@@ -109,17 +105,15 @@ class DeckPreviewActivity : BaseActivity() {
      */
     private fun renameDeck(data: List<*>, position: Int) {
         val deckName = (data[position] as DeckPreviewBean).deckName
-        DialogEditText(this, getString(R.string.deck_name), deckName, getString(R.string.deck_name_hint), object : DialogEditText.OnButtonClick {
-            override fun getText(dialog: DialogEditText, content: String) {
-                val checkDeckName = deckName == content || !DeckUtils.checkDeckName(content)
-                if (checkDeckName) {
-                    FileUtils.renameFile(DeckUtils.getDeckPath(deckName), DeckUtils.getDeckPath(content))
-                    mDeckPreviewAdapter.updateData(DeckUtils.deckPreviewList)
-                    dialog.dismiss()
-                    showSnackBar(view_content, updateSucceed.toString())
-                } else {
-                    showSnackBar(view_content, deckNameExits.toString())
-                }
+        DialogEditText(this, getString(R.string.deck_name), deckName, getString(R.string.deck_name_hint), { dialog, content ->
+            val checkDeckName = deckName == content || !DeckUtils.checkDeckName(content)
+            if (checkDeckName) {
+                FileUtils.renameFile(DeckUtils.getDeckPath(deckName), DeckUtils.getDeckPath(content))
+                mDeckPreviewAdapter.updateData(DeckUtils.deckPreviewList)
+                dialog.dismiss()
+                showSnackBar(view_content, mUpdateSucceed.toString())
+            } else {
+                showSnackBar(view_content, mDeckNameExits.toString())
             }
         }).show()
     }
@@ -133,17 +127,15 @@ class DeckPreviewActivity : BaseActivity() {
      */
     private fun copyDeck(data: List<*>, position: Int) {
         val deckName = (data[position] as DeckPreviewBean).deckName
-        DialogEditText(this, getString(R.string.deck_name), deckName, getString(R.string.deck_name_hint), object : DialogEditText.OnButtonClick {
-            override fun getText(dialog: DialogEditText, content: String) {
-                val checkDeckName = DeckUtils.checkDeckName(content)
-                if (!checkDeckName) {
-                    FileUtils.copyFile(DeckUtils.getDeckPath(deckName), DeckUtils.getDeckPath(content))
-                    mDeckPreviewAdapter.updateData(DeckUtils.deckPreviewList)
-                    dialog.dismiss()
-                    showSnackBar(view_content, getString(R.string.copy_succeed))
-                } else {
-                    showSnackBar(view_content, deckNameExits.toString())
-                }
+        DialogEditText(this, getString(R.string.deck_name), deckName, getString(R.string.deck_name_hint), { dialog, content ->
+            val checkDeckName = DeckUtils.checkDeckName(content)
+            if (!checkDeckName) {
+                FileUtils.copyFile(DeckUtils.getDeckPath(deckName), DeckUtils.getDeckPath(content))
+                mDeckPreviewAdapter.updateData(DeckUtils.deckPreviewList)
+                dialog.dismiss()
+                showSnackBar(view_content, getString(R.string.copy_succeed))
+            } else {
+                showSnackBar(view_content, mDeckNameExits.toString())
             }
         }).show()
     }
@@ -159,11 +151,6 @@ class DeckPreviewActivity : BaseActivity() {
         val deckName = (data[position] as DeckPreviewBean).deckName
         FileUtils.deleteFile(DeckUtils.getDeckPath(deckName))
         mDeckPreviewAdapter.updateData(DeckUtils.deckPreviewList)
-        showSnackBar(view_content, deleteSucceed!!)
-    }
-
-    companion object {
-
-        private val TAG = DeckPreviewActivity::class.java.simpleName
+        showSnackBar(view_content, mDeleteSucceed!!)
     }
 }

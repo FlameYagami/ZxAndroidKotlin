@@ -3,19 +3,15 @@ package com.zx.view.dialog
 import android.content.Context
 import android.support.v7.app.AlertDialog
 import android.view.View
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.zx.R
 
 /**
  * Created by 八神火焰 on 2017/2/9.
  */
 
-class DialogVersusPersonal(context: Context, private val onButtonClick: DialogVersusPersonal.OnButtonClick) : AlertDialog(context) {
+class DialogVersusPersonal(context: Context, private val onButtonClick: (dialog: DialogVersusPersonal, type: ButtonType) -> Unit) : AlertDialog(context) {
 
-    interface OnButtonClick {
-        fun getButtonType(dialog: DialogVersusPersonal, type: ButtonType)
-    }
+    var OnButtonClick: ((dialog: DialogVersusPersonal, type: ButtonType) -> Unit)? = null
 
     enum class ButtonType {
         JoinRoom,
@@ -24,16 +20,17 @@ class DialogVersusPersonal(context: Context, private val onButtonClick: DialogVe
 
     init {
         val view = View.inflate(context, R.layout.dialog_versus_psersonal, null)
-        ButterKnife.bind(this, view)
+        OnButtonClick = onButtonClick
         setView(view)
         setTitle(context.getString(R.string.versus_personal))
+//        btn_join_room.onClick(context,) { _ -> onButton_Click() }
+//        btn_create_room.onClick { _ -> onButton_Click() }
     }
 
-    @OnClick(R.id.btn_join_room, R.id.btn_create_room)
     fun onButton_Click(view: View) {
         when (view.id) {
-            R.id.btn_join_room -> onButtonClick.getButtonType(this, ButtonType.JoinRoom)
-            R.id.btn_create_room -> onButtonClick.getButtonType(this, ButtonType.CreateRoom)
+            R.id.btn_join_room -> onButtonClick.invoke(this, ButtonType.JoinRoom)
+            R.id.btn_create_room -> onButtonClick.invoke(this, ButtonType.CreateRoom)
         }
     }
 }

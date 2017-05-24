@@ -2,8 +2,7 @@ package com.zx.ui.loading
 
 import android.Manifest
 import android.os.Build
-import butterknife.ButterKnife
-import com.tbruyelle.rxpermissions.RxPermissions
+import com.tbruyelle.rxpermissions2.RxPermissions
 import com.zx.R
 import com.zx.ui.base.BaseExActivity
 import com.zx.ui.main.MainActivity
@@ -11,11 +10,10 @@ import com.zx.uitls.*
 import com.zx.uitls.PathManager.databasePath
 import com.zx.uitls.PathManager.pictureCache
 import com.zx.uitls.PathManager.pictureZipPath
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_loading.*
-import rx.Observable
-import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 /**
@@ -28,8 +26,6 @@ class LoadingActivity : BaseExActivity() {
         get() = R.layout.activity_loading
 
     override fun initViewAndData() {
-        ButterKnife.bind(this)
-
         if (Build.VERSION.SDK_INT >= 23) {
             requestPermissions()
         } else {
@@ -46,7 +42,7 @@ class LoadingActivity : BaseExActivity() {
                 initData()
             } else {
                 showSnackBar(view_content, "权限不足,程序将在2s后关闭")
-                Observable.interval(2000, TimeUnit.MILLISECONDS).subscribe { along -> AppManager.getInstances().AppExit(this) }
+                Observable.interval(2000, TimeUnit.MILLISECONDS).subscribe { AppManager.instance().AppExit(this) }
             }
         }
     }
@@ -65,22 +61,12 @@ class LoadingActivity : BaseExActivity() {
     }
 
     private fun UnZipPicture() {
-        ZipUtils.UnZipFolder("picture.zip", pictureCache).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Subscriber<Int>() {
-            override fun onCompleted() {
-                IntentUtils.gotoActivityAndFinish(this@LoadingActivity, MainActivity::class.java)
+        ZipUtils.UnZipFolder("picture.zip", pictureCache).observeOn(AndroidSchedulers.mainThread()).subscribe({ progress ->
+            if (-1 != progress) {
+                prg_loading.progress = progress
+                prg_hint.text = String.format("%s/100", progress)
             }
-
-            override fun onError(e: Throwable) {
-                LogUtils.e(TAG, e.message as String)
-            }
-
-            override fun onNext(progress: Int) {
-                if (-1 != progress) {
-                    prg_loading.progress = progress
-                    prg_hint.text = String.format("%s/100", progress)
-                }
-            }
-        })
+        }, { t -> LogUtils.e(TAG, t.message.toString()) }, { IntentUtils.gotoActivityAndFinish(this@LoadingActivity, MainActivity::class.java) })
     }
 
     override fun onDestroy() {
@@ -92,3 +78,4 @@ class LoadingActivity : BaseExActivity() {
         private val TAG = LoadingActivity::class.java.simpleName
     }
 }
+

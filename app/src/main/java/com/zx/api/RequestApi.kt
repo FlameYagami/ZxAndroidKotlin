@@ -8,12 +8,12 @@ import com.zx.bean.UpdateBean
 import com.zx.uitls.FileUtils
 import com.zx.uitls.JsonUtils
 import com.zx.uitls.PathManager.downloadPath
+import io.reactivex.Observable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import rx.Observable
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -31,7 +31,7 @@ class RequestApi {
         val retrofit = Retrofit.Builder()
                 .client(builder.build())
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(BASE_URL)
                 .build()
         requestService = retrofit.create<RequestService>(RequestService::class.java)
@@ -44,7 +44,7 @@ class RequestApi {
         val retrofit = Retrofit.Builder()
                 .client(builder.build())
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(url)
                 .build()
         requestService = retrofit.create<RequestService>(RequestService::class.java)

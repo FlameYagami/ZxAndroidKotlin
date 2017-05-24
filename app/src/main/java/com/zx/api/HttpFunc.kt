@@ -1,16 +1,16 @@
 package com.zx.api
 
-import rx.functions.Func1
+import io.reactivex.functions.Function
 
 /**
  * Created by 时空管理局 on 2016/8/4.
  */
-internal class HttpFunc<T> : Func1<HttpResult<T>, T> {
-    override fun call(httpResult: HttpResult<T>): T? {
-        if (200 != httpResult.code) {
-            throw RuntimeException(httpResult.code.toString() + httpResult.reason)
+internal class HttpFunc<T> : Function<HttpResult<T>, T> {
+    override fun apply(t: HttpResult<T>?): T {
+        if (200 != t?.code) {
+            throw RuntimeException(t?.code.toString() + t?.reason)
         }
-        return httpResult.result
+        return t.result as T
     }
 }
 

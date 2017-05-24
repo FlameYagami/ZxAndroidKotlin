@@ -3,13 +3,11 @@ package com.zx.ui.versus
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.ImageView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.zx.R
 import com.zx.bean.HandBean
 import com.zx.ui.base.BaseRecyclerViewAdapter
+import kotlinx.android.synthetic.main.item_duel_hand.view.*
 
 /**
  * Created by 八神火焰 on 2016/12/26.
@@ -52,16 +50,9 @@ class HandAdapter internal constructor(context: Context) : BaseRecyclerViewAdapt
     }
 
     internal class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        @BindView(R.id.img_thumbnail)
-        var imgThumbnail: ImageView? = null
-        @BindView(R.id.view_top)
-        var viewTop: View? = null
-        @BindView(R.id.view_bottom)
-        var viewBottom: View? = null
-
-        init {
-            ButterKnife.bind(this, itemView)
-        }
+        var imgThumbnail = itemView.img_thumbnail
+        var viewTop = itemView.view_top
+        var viewBottom = itemView.view_bottom
     }
 
     companion object {

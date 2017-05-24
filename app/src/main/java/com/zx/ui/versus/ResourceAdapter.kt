@@ -3,15 +3,12 @@ package com.zx.ui.versus
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.zx.R
 import com.zx.bean.ResourceBean
 import com.zx.ui.base.BaseRecyclerViewAdapter
 import com.zx.uitls.RotateTransformation
+import kotlinx.android.synthetic.main.item_duel_resource.view.*
 
 /**
  * Created by 八神火焰 on 2017/1/14.
@@ -37,13 +34,7 @@ class ResourceAdapter(context: Context) : BaseRecyclerViewAdapter(context) {
     }
 
     internal class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        @BindView(R.id.item_content)
-        var viewContent: LinearLayout? = null
-        @BindView(R.id.img_thumbnail)
-        var imgThumbnail: ImageView? = null
-
-        init {
-            ButterKnife.bind(this, itemView)
-        }
+        var viewContent = itemView.item_content
+        var imgThumbnail = itemView.img_thumbnail
     }
 }

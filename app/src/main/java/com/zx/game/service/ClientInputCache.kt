@@ -2,8 +2,8 @@ package com.zx.game.service
 
 import com.zx.game.message.ServicePacket
 import com.zx.uitls.Md5Utils
-import rx.Observable
-import rx.Subscription
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 import java.nio.ByteBuffer
 import java.util.concurrent.TimeUnit
 
@@ -74,7 +74,7 @@ class ClientInputCache(private val mOnReadListener: ClientInputCache.OnReadListe
     }
 
     private inner class ReadSubscriber internal constructor() {
-        internal var subscription: Subscription? = null
+        internal var subscription: Disposable? = null
 
         init {
             subscription = Observable.interval(500, TimeUnit.MILLISECONDS).subscribe {
@@ -86,7 +86,7 @@ class ClientInputCache(private val mOnReadListener: ClientInputCache.OnReadListe
         }
 
         internal fun releaseSubscriber() {
-            subscription?.unsubscribe()
+            subscription?.dispose()
             subscription = null
         }
     }

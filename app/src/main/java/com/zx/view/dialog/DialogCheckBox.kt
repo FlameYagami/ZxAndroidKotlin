@@ -9,21 +9,19 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.zx.R
+import kotlinx.android.synthetic.main.dialog_checkbox.*
+import kotlinx.android.synthetic.main.item_checkbox.view.*
 import java.util.*
 
 /**
  * Created by 八神火焰 on 2016/12/16.
  */
 
-class DialogCheckBox(context: Context, title: String, mCheckboxMap: LinkedHashMap<String, Boolean>, private val mOnClickListener: DialogCheckBox.OnClickListener) : AlertDialog(context), DialogInterface.OnClickListener {
+class DialogCheckBox(context: Context, title: String, mCheckboxMap: LinkedHashMap<String, Boolean>, mListener: (mCheckboxMap: LinkedHashMap<String, Boolean>) -> Unit) : AlertDialog(context), DialogInterface.OnClickListener {
     private val mCheckBoxAdapter: CheckBoxAdapter
 
-    interface OnClickListener {
-        fun getCheckBoxMap(mCheckboxMap: LinkedHashMap<String, Boolean>)
-    }
+    var OnButtonClick: ((mCheckboxMap: LinkedHashMap<String, Boolean>) -> Unit)? = null
 
     init {
         val view = View.inflate(context, R.layout.dialog_checkbox, null)
@@ -31,15 +29,15 @@ class DialogCheckBox(context: Context, title: String, mCheckboxMap: LinkedHashMa
         setTitle(title)
         setButton(DialogInterface.BUTTON_POSITIVE, "确 定", this)
         setButton(DialogInterface.BUTTON_NEGATIVE, "取 消", this)
-        val mRecyclerView = view.findViewById(R.id.rv_checkbox) as RecyclerView
-        mRecyclerView.layoutManager = GridLayoutManager(context, 2)
+        rv_checkbox.layoutManager = GridLayoutManager(context, 2)
         mCheckBoxAdapter = CheckBoxAdapter(context, mCheckboxMap)
-        mRecyclerView.adapter = mCheckBoxAdapter
+        rv_checkbox.adapter = mCheckBoxAdapter
+        OnButtonClick = mListener
     }
 
     override fun onClick(dialogInterface: DialogInterface, which: Int) {
         if (which == DialogInterface.BUTTON_POSITIVE) {
-            mOnClickListener.getCheckBoxMap(mCheckBoxAdapter.checkboxMap)
+            OnButtonClick?.invoke(mCheckBoxAdapter.checkboxMap)
         }
     }
 
@@ -59,9 +57,11 @@ class DialogCheckBox(context: Context, title: String, mCheckboxMap: LinkedHashMa
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val viewHolder = holder as ViewHolder
             val key = mKey[position]
-            viewHolder.compatCheckBox?.text = key
-            viewHolder.compatCheckBox?.isChecked = checkboxMap[key]!!
-            viewHolder.compatCheckBox?.setOnCheckedChangeListener { _, _ -> checkboxMap.put(key, !checkboxMap[key]!!) }
+            with(viewHolder) {
+                compatCheckBox?.text = key
+                compatCheckBox?.isChecked = checkboxMap[key]!!
+                compatCheckBox?.setOnCheckedChangeListener { _, _ -> checkboxMap.put(key, !checkboxMap[key]!!) }
+            }
         }
 
         override fun getItemCount(): Int {
@@ -70,12 +70,7 @@ class DialogCheckBox(context: Context, title: String, mCheckboxMap: LinkedHashMa
     }
 
     internal class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        @BindView(R.id.checkbox)
-        var compatCheckBox: AppCompatCheckBox? = null
-
-        init {
-            ButterKnife.bind(this, itemView)
-        }
+        var compatCheckBox: AppCompatCheckBox? = itemView.checkbox
     }
 
     companion object {

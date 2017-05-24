@@ -1,21 +1,22 @@
 package com.zx.ui.versusmode
 
-import android.view.View
-import butterknife.ButterKnife
-import butterknife.OnClick
+import com.michaelflisar.rxbus2.RxBusBuilder
+import com.michaelflisar.rxbus2.rx.RxDisposableManager
 import com.zx.R
 import com.zx.config.MyApp
 import com.zx.event.JoinGameEvent
+import com.zx.game.Client
+import com.zx.game.Player
 import com.zx.game.enums.PlayerType
+import com.zx.game.message.ModBusCreator
 import com.zx.ui.base.BaseActivity
 import com.zx.ui.versuroom.VersusRoomActivity
 import com.zx.uitls.IntentUtils
-import com.zx.uitls.RxBus
 import com.zx.view.dialog.DialogEditText
 import com.zx.view.dialog.DialogVersusPersonal
-import com.zx.view.widget.AppBarView
 import kotlinx.android.synthetic.main.activity_versus_mode.*
 import java.util.*
+
 
 /**
  * Created by 八神火焰 on 2017/2/8.
@@ -29,28 +30,22 @@ class VersusModeActivity : BaseActivity() {
         get() = R.layout.activity_versus_mode
 
     override fun initViewAndData() {
-        ButterKnife.bind(this)
-        viewAppBar.setNavigationClickListener(object : AppBarView.NavigationClickListener {
-            override fun onNavigationClick() {
-                onBackPressed()
-            }
-        })
+        viewAppBar.setNavigationClickListener { onBackPressed() }
         MyApp.Client?.initPlayer(Random().nextInt().toString())
         MyApp.Client?.start()
-
-        RxBus.instance.addSubscription(this, RxBus.instance.toObservable(JoinGameEvent::class.java).subscribe({ this.onJoinRoom(it) }))
+        RxDisposableManager.addDisposable(this, RxBusBuilder.create(JoinGameEvent::class.java).subscribe({ this.onJoinRoom(it) }))
     }
 
-    @OnClick(R.id.view_ladder_tournament, R.id.view_versus_freedom, R.id.view_versus_personal)
-    fun onMode_Click(view: View) {
-        when (view.id) {
-            R.id.view_ladder_tournament -> {
-            }
-            R.id.view_versus_freedom -> {
-            }
-            R.id.view_versus_personal -> onVersusPersonal()
-        }
-    }
+//    @OnClick(R.id.view_ladder_tournament, R.id.view_versus_freedom, R.id.view_versus_personal)
+//    fun onMode_Click(view: View) {
+//        when (view.id) {
+//            R.id.view_ladder_tournament -> {
+//            }
+//            R.id.view_versus_freedom -> {
+//            }
+//            R.id.view_versus_personal -> onVersusPersonal()
+//        }
+//    }
 
     private fun onJoinRoom(mJoinGameEvent: JoinGameEvent) {
         hideDialog()
@@ -75,27 +70,27 @@ class VersusModeActivity : BaseActivity() {
      * 私人对战事件
      */
     private fun onVersusPersonal() {
-//        mDialogVersusPersonal = DialogVersusPersonal(this) { dialog, type ->
-//            if (type == DialogVersusPersonal.ButtonType.JoinRoom) {
-//                dialog.dismiss()
-//                onJoinRoom()
-//            } else if (type == DialogVersusPersonal.ButtonType.CreateRoom) {
-//                showDialog("")
-//                MyApp.Client.send(ModBusCreator.onCreateRoom(MyApp.Client.Player))
-//            }
-//        }
-//        mDialogVersusPersonal.show()
+        mDialogVersusPersonal = DialogVersusPersonal(this, { dialog, type ->
+            if (type == DialogVersusPersonal.ButtonType.JoinRoom) {
+                dialog.dismiss()
+                onJoinRoom()
+            } else if (type == DialogVersusPersonal.ButtonType.CreateRoom) {
+                showDialog("")
+                MyApp.Client?.send(ModBusCreator.onCreateRoom((MyApp.Client as Client).Player as Player))
+            }
+        })
+        mDialogVersusPersonal.show()
     }
 
     /**
      * 加入房间事件
      */
     private fun onJoinRoom() {
-//        mDialogJoinRoom = DialogEditText(this, getString(R.string.join_room), "", "请输入房间号") { dialog, content ->
-//            MyApp.Client.send(ModBusCreator.onJoinRoom(content, MyApp.Client.Player))
-//            showDialog("")
-//        }
-//        mDialogJoinRoom.show()
+        mDialogJoinRoom = DialogEditText(this, getString(R.string.join_room), "", "请输入房间号", { _, content ->
+            MyApp.Client?.send(ModBusCreator.onJoinRoom(content, (MyApp.Client as Client).Player as Player))
+            showDialog("")
+        })
+        mDialogJoinRoom.show()
     }
 
     override fun onDestroy() {

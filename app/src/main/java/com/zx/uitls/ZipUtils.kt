@@ -1,9 +1,8 @@
 package com.zx.uitls
 
-
 import com.zx.R
 import com.zx.config.MyApp.Companion.context
-import rx.Observable
+import io.reactivex.Observable
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -29,7 +28,7 @@ object ZipUtils {
         return Observable.create<Int> { subscriber ->
             val zipCount = getZipSize(directoryPath + context?.getString(R.string.zip_extension)) - 1 // PS:-1是因为存在文件夹
             if (zipCount == FileUtils.getFileSize(directoryPath)) {
-                subscriber.onCompleted()
+                subscriber.onComplete()
             } else {
                 var len: Int
                 var count = 0
@@ -65,7 +64,7 @@ object ZipUtils {
                             subscriber.onNext(count * 100 / zipCount)
                         }
                     }
-                    subscriber.onCompleted()
+                    subscriber.onComplete()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

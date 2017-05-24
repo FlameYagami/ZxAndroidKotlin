@@ -85,16 +85,16 @@ class SpUtil private constructor() {
     companion object {
         val IsNotFirst = "IsNotFirst"
 
-        private var instance: SpUtil? = null
+        private var mInstance: SpUtil? = null
 
         private val CONFIG = "CONFIG"
 
-        val instances: SpUtil
+        val instance: SpUtil
             get() {
-                if (null == instance) {
-                    instance = SpUtil()
+                if (null == mInstance) {
+                    mInstance = SpUtil()
                 }
-                return instance!!
+                return mInstance!!
             }
     }
 

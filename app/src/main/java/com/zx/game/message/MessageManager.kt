@@ -3,8 +3,8 @@ package com.zx.game.message
 import com.zx.game.service.ClientSocket
 import com.zx.uitls.LogUtils
 import com.zx.uitls.Md5Utils
-import rx.Observable
-import rx.Subscription
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -79,15 +79,15 @@ class MessageManager(private val mClientSocket: ClientSocket) {
     }
 
     private inner class TickSubscriber internal constructor() {
-        internal var stopMePlease: Subscription? = null
+        internal var disposable: Disposable? = null
 
         init {
-            stopMePlease = Observable.interval(100, TimeUnit.MILLISECONDS).subscribe { aLong -> tick() }
+            disposable = Observable.interval(100, TimeUnit.MILLISECONDS).subscribe { aLong -> tick() }
         }
 
         internal fun releaseSubscriber() {
-            stopMePlease?.unsubscribe()
-            stopMePlease = null
+            disposable?.dispose()
+            disposable = null
         }
     }
 

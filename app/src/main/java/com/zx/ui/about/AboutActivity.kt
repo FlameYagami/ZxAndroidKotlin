@@ -1,10 +1,8 @@
 package com.zx.ui.about
 
-import butterknife.ButterKnife
 import com.zx.R
 import com.zx.ui.base.BaseActivity
 import com.zx.uitls.SystemUtils
-import com.zx.view.widget.AppBarView
 import kotlinx.android.synthetic.main.activity_about.*
 
 /**
@@ -16,13 +14,8 @@ class AboutActivity : BaseActivity() {
         get() = R.layout.activity_about
 
     override fun initViewAndData() {
-        ButterKnife.bind(this)
-        viewAppBar.setNavigationClickListener(object : AppBarView.NavigationClickListener {
-            override fun onNavigationClick() {
-                onBackPressed()
-            }
-        })
-        msg_version?.setValue(SystemUtils.versionName)
+        viewAppBar.setNavigationClickListener { onBackPressed() }
+        msg_version.setValue(SystemUtils.versionName)
     }
 
     companion object {

@@ -6,8 +6,6 @@ import android.support.v4.view.GravityCompat
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.youth.banner.BannerConfig
 import com.zx.R
 import com.zx.config.MapConst
@@ -24,10 +22,10 @@ import com.zx.uitls.IntentUtils
 import com.zx.uitls.database.SQLiteUtils
 import com.zx.uitls.database.SqlUtils
 import com.zx.view.banner.BannerImageLoader
-import com.zx.view.widget.AppBarView
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import rx.Observable
-import rx.schedulers.Schedulers
+import org.jetbrains.anko.sdk25.coroutines.onClick
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private var firstTime: Long = 0
@@ -36,12 +34,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         get() = R.layout.activity_main
 
     override fun initViewAndData() {
-        ButterKnife.bind(this)
-        viewAppBar.setNavigationClickListener(object : AppBarView.NavigationClickListener {
-            override fun onNavigationClick() {
-                view_drawer.openDrawer(GravityCompat.START)
-            }
-        })
+        viewAppBar.setNavigationClickListener { view_drawer.openDrawer(GravityCompat.START) }
         nav_view.setNavigationItemSelectedListener(this)
         // 主界面不可调用SwipeBack
         setSwipeBackEnable(false)
@@ -68,12 +61,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             IntentUtils.gotoActivity(this, ResultActivity::class.java)
         }
         banner.start()
+        fab_search.onClick { onSearch_Click() }
     }
 
     /**
      * 关键字搜索
      */
-    @OnClick(R.id.fab_search)
     fun onSearch_Click() {
         DisplayUtils.hideKeyboard(this)
         val querySql = SqlUtils.getKeyQuerySql(txt_search.text.toString().trim { it <= ' ' })
@@ -93,7 +86,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val lastTime = System.currentTimeMillis()
             val between = lastTime - firstTime
             if (between < 2000) {
-                AppManager.getInstances().AppExit(this)
+                AppManager.instance().AppExit(this)
             } else {
                 firstTime = lastTime
                 showSnackBar(view_content, "再按一次退出应用")

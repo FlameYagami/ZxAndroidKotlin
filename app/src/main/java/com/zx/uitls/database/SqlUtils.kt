@@ -76,7 +76,7 @@ class SqlUtils : SQLitConst {
          * @return sql
          */
         private val footerSql: String
-            get() = if (SpUtil.instances.getString(SpConst.OrderPattern) == context?.getString(R.string.order_by_number)) orderNumberSql else orderValueSql
+            get() = if (SpUtil.instance.getString(SpConst.OrderPattern) == context?.getString(R.string.order_by_number)) orderNumberSql else orderValueSql
 
         /**
          * 获取卡编排序方式查询语句
