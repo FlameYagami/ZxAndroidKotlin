@@ -27,57 +27,42 @@ object ZipUtils {
     fun UnZipFolder(assetsName: String, directoryPath: String): Observable<Int> {
         return Observable.create<Int> { subscriber ->
             val zipCount = getZipSize(directoryPath + context?.getString(R.string.zip_extension)) - 1 // PS:-1是因为存在文件夹
-            if (zipCount == FileUtils.getFileSize(directoryPath)) {
-                subscriber.onComplete()
-            } else {
-                var len: Int
-                var count = 0
-                val unZipPath = File(directoryPath).parent + File.separator
-                var szName: String
-                var zipEntry: ZipEntry
-                var inZip: ZipInputStream? = null
+            if (zipCount != FileUtils.getFileSize(directoryPath)) {
                 try {
-                    subscriber.onNext(0)
-                    inZip = ZipInputStream(context?.resources?.assets?.open(assetsName))
-                    while (true) {
-                        zipEntry = inZip.nextEntry
-                        if (zipEntry == null) break
-                        szName = zipEntry.name
-                        if (zipEntry.isDirectory) {
+                    var len = 0
+                    var count = 0
+                    val unZipPath = File(directoryPath).parent + File.separator
+                    var szName: String
+                    var zipEntry: ZipEntry? = null
+                    val inZip: ZipInputStream?
+                    inZip = ZipInputStream(context!!.resources.assets.open(assetsName))
+                    while (inZip.nextEntry.let { zipEntry = it;it != null }) {
+                        szName = zipEntry!!.name
+                        if (zipEntry!!.isDirectory) {
                             szName = szName.substring(0, szName.length - 1)
                             FileUtils.createDirectory(unZipPath + szName)
-                        } else {
-                            val file = File(unZipPath + szName)
-                            if (!file.exists()) {
-                                file.createNewFile()
-                                val out = FileOutputStream(file)
-                                val buffer = ByteArray(2048)
-                                while (true) {
-                                    len = inZip.read(buffer)
-                                    if (len == -1) break
-                                    out.write(buffer, 0, len)
-                                }
-                                out.close()
+                            continue
+                        }
+                        val file = File(unZipPath + szName)
+                        if (!file.exists()) {
+                            file.createNewFile()
+                            val out = FileOutputStream(file)
+                            val buffer = ByteArray(2048)
+                            while (inZip.read(buffer).let { len = it;it != -1 }) {
+                                out.write(buffer, 0, len)
                             }
+                            out.close()
                         }
                         if (++count % 20 == 0) {
                             subscriber.onNext(count * 100 / zipCount)
                         }
                     }
-                    subscriber.onComplete()
+                    inZip.close()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-
-                try {
-                    assert(inZip != null)
-                    inZip?.close()
-                } catch (e: Exception) {
-                    subscriber.onError(e)
-                    e.printStackTrace()
-                }
-
             }
+            subscriber.onComplete()
         }
     }
 

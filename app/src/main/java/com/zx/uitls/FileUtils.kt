@@ -58,9 +58,9 @@ object FileUtils {
         val file = File(childPath)
 
         try {
-            val inputStream = context?.resources?.openRawResource(resId)
+            val inputStream = context!!.resources.openRawResource(resId)
             // 条件同时满足 压缩文件存在、压缩文件大小未变、不进行覆盖操作
-            if (file.exists() && SpUtil.instance.getInt(childPath) == inputStream?.available() && !isCover) {
+            if (file.exists() && SpUtil.instance.getInt(childPath) == inputStream.available() && !isCover) {
                 inputStream.close()
                 return
             }
@@ -69,19 +69,17 @@ object FileUtils {
                 file.delete()
             }
             // 重新创建压缩文件
-            val available = inputStream?.available()
+            val available = inputStream.available()
             file.createNewFile()
             val outputStream = FileOutputStream(file)
             val buffer = ByteArray(2048)
-            var bytesRead: Int
-            while (true) {
-                bytesRead = inputStream?.read(buffer) as Int
-                if (bytesRead == -1) break
+            var bytesRead = -1
+            while (inputStream!!.read(buffer).let { bytesRead = it;it != -1 }) {
                 outputStream.write(buffer, 0, bytesRead)
             }
             inputStream.close()
             outputStream.close()
-            SpUtil.instance.putInt(childPath, available as Int)
+            SpUtil.instance.putInt(childPath, available)
             LogUtils.e(TAG, "copyRaw->Succeed")
         } catch (e: Exception) {
             e.printStackTrace()
@@ -104,7 +102,7 @@ object FileUtils {
         val file = File(outPath)
 
         try {
-            val inputStream = context?.resources?.assets?.open(fileName)
+            val inputStream = context!!.resources.assets.open(fileName)
             // 条件同时满足 压缩文件存在、压缩文件大小未变、不进行覆盖操作
             if (file.exists() && SpUtil.instance.getInt(outPath) == inputStream?.available() && !isCover) {
                 inputStream.close()
@@ -115,18 +113,17 @@ object FileUtils {
                 file.delete()
             }
             // 重新创建压缩文件
-            val available = inputStream?.available()
+            val available = inputStream.available()
             file.createNewFile()
             val outputStream = FileOutputStream(file)
             val buffer = ByteArray(2048)
-            while (true) {
-                val bytesRead = inputStream?.read(buffer)
-                if (bytesRead == -1) break
-                outputStream.write(buffer, 0, bytesRead as Int)
+            var bytesRead = -1
+            while (inputStream!!.read(buffer).let { bytesRead = it; it != -1 }) {
+                outputStream.write(buffer, 0, bytesRead)
             }
-            inputStream?.close()
+            inputStream.close()
             outputStream.close()
-            SpUtil.instance.putInt(outPath, available as Int)
+            SpUtil.instance.putInt(outPath, available)
             LogUtils.i(TAG, "copyRaw->Succeed")
         } catch (e: Exception) {
             e.printStackTrace()
@@ -143,16 +140,15 @@ object FileUtils {
     fun getAssetsContent(fileName: String): String {
         var content = ""
         try {
-            val inputStream = context?.resources?.assets?.open(fileName)
+            val inputStream = context!!.resources.assets.open(fileName)
             val inputStreamReader = InputStreamReader(inputStream, "utf-8")
-            val input = CharArray(inputStream?.available() as Int)
+            val input = CharArray(inputStream.available())
             inputStreamReader.read(input)
             content = String(input)
         } catch (e: Exception) {
             e.printStackTrace()
             LogUtils.e(TAG, e.message.toString())
         }
-
         return content
     }
 
