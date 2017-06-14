@@ -25,13 +25,13 @@
                 app:title_text="@string/app_name"/>
 
             <FrameLayout
-                android:id="@+id/view_banner"
+                android:id="@+id/viewBanner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/viewAppBar">
 
                 <com.youth.banner.Banner
-                    android:id="@+id/banner"
+                    android:id="@+id/bannerPack"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     app:delay_time="2000"
@@ -40,10 +40,10 @@
             </FrameLayout>
 
             <EditText
-                android:id="@+id/txt_search"
+                android:id="@+id/txtSearch"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_below="@+id/view_banner"
+                android:layout_below="@+id/viewBanner"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -56,7 +56,7 @@
         </RelativeLayout>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_search"
+            android:id="@+id/fabSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
@@ -66,7 +66,7 @@
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
+        android:id="@+id/navView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

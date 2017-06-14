@@ -17,13 +17,13 @@
             android:background="@drawable/corners_primary">
 
             <ImageView
-                android:id="@+id/img_pl"
+                android:id="@+id/imgPl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="3.5dp"
                 android:layout_marginLeft="2.5dp"
                 android:layout_marginRight="2.5dp"
-                android:layout_marginTop="3.5dp"
-                android:layout_marginBottom="3.5dp">
+                android:layout_marginTop="3.5dp">
             </ImageView>
         </FrameLayout>
 
@@ -32,12 +32,12 @@
             android:layout_height="match_parent">
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btn_deck_save"
+                android:id="@+id/btnDeckSave"
+                style="@style/Base.Widget.AppCompat.Button.Colored"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                style="@style/Base.Widget.AppCompat.Button.Colored"
                 android:text="@string/save"
                 android:textSize="12sp"/>
         </FrameLayout>
@@ -52,7 +52,7 @@
         android:orientation="horizontal">
 
         <com.youth.banner.Banner
-            android:id="@+id/banner"
+            android:id="@+id/bannerPack"
             android:layout_width="80dp"
             android:layout_height="110dp"
             android:layout_gravity="center_vertical"
@@ -61,9 +61,9 @@
             app:is_auto_play="false"/>
 
         <LinearLayout
-            android:layout_margin="6dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="6dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -73,16 +73,16 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_cname"
+                    android:id="@+id/tvCname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/tv_number"
-                    android:layout_toStartOf="@+id/tv_number"
+                    android:layout_toLeftOf="@+id/tvNumber"
+                    android:layout_toStartOf="@+id/tvNumber"
                     android:ellipsize="end"
                     android:textSize="12sp"/>
 
                 <TextView
-                    android:id="@+id/tv_number"
+                    android:id="@+id/tvNumber"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -100,21 +100,21 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_race"
+                    android:id="@+id/tvRace"
                     style="@style/layout_weight_height_wrap"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:textSize="12sp"/>
 
                 <TextView
-                    android:id="@+id/tv_cost"
+                    android:id="@+id/tvCost"
                     android:layout_width="36dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:textSize="12sp"/>
 
                 <TextView
-                    android:id="@+id/tv_power"
+                    android:id="@+id/tvPower"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -128,15 +128,12 @@
                 android:layout_marginTop="2dp">
 
                 <TextView
-                    android:id="@+id/tv_ability"
+                    android:id="@+id/tvAbility"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"/>
 
             </ScrollView>
-
         </LinearLayout>
-
     </LinearLayout>
-
 </LinearLayout>

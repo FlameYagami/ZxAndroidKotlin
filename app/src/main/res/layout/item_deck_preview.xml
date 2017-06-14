@@ -12,7 +12,7 @@
         android:layout_height="84dp">
 
         <ImageView
-            android:id="@+id/img_thumbnail"
+            android:id="@+id/imgThumbnail"
             android:layout_width="50dp"
             android:layout_height="70dp"
             android:layout_centerVertical="true"
@@ -21,7 +21,7 @@
             android:src="@drawable/ic_unknown_picture"/>
 
         <LinearLayout
-            android:id="@+id/view_status"
+            android:id="@+id/viewStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -40,7 +40,7 @@
                 android:text="@string/deck_main"/>
 
             <TextView
-                android:id="@+id/tv_status_main"
+                android:id="@+id/tvStatusMain"
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
@@ -55,7 +55,7 @@
                 android:text="@string/deck_extra"/>
 
             <TextView
-                android:id="@+id/tv_status_extra"
+                android:id="@+id/tvStatusExtra"
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -63,14 +63,14 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_deck_name"
+            android:id="@+id/tvDeckName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_toEndOf="@+id/img_thumbnail"
-            android:layout_toRightOf="@+id/img_thumbnail"
+            android:layout_toEndOf="@+id/imgThumbnail"
+            android:layout_toRightOf="@+id/imgThumbnail"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/cname_test"
@@ -79,5 +79,5 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/include_divider_ex"/>
+    <include layout="@layout/include_divider"/>
 </LinearLayout>

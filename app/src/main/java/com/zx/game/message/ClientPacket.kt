@@ -8,10 +8,9 @@ import java.io.UnsupportedEncodingException
  */
 
 class ClientPacket {
-    private val mByteArrayOutputStream: ByteArrayOutputStream
+    private val mByteArrayOutputStream: ByteArrayOutputStream = ByteArrayOutputStream()
 
     init {
-        mByteArrayOutputStream = ByteArrayOutputStream()
         mByteArrayOutputStream.write(4.toByte().toInt())
     }
 

@@ -20,12 +20,12 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin">
 
             <ImageView
-                android:id="@+id/img_thumbnail"
+                android:id="@+id/imgThumbnail"
                 android:layout_width="50dp"
                 android:layout_height="70dp"/>
 
             <ImageView
-                android:id="@+id/img_restrict"
+                android:id="@+id/imgRestrict"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_margin="2dp"
@@ -43,7 +43,7 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_cname"
+                android:id="@+id/tvCname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -67,7 +67,7 @@
                     android:textSize="@dimen/message_size"/>
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_race"
+                    android:id="@+id/tvRace"
                     style="@style/layout_wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -84,7 +84,7 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_cost"
+                    android:id="@+id/tvCost"
                     style="@style/layout_wrap_content"
                     android:layout_width="wrap_content"
                     android:gravity="center_vertical"
@@ -92,7 +92,7 @@
                     android:textSize="@dimen/message_size"/>
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_power"
+                    android:id="@+id/tvPower"
                     style="@style/layout_wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -105,5 +105,5 @@
         </LinearLayout>
     </LinearLayout>
 
-    <include layout="@layout/include_divider_ex"/>
+    <include layout="@layout/include_divider"/>
 </LinearLayout>

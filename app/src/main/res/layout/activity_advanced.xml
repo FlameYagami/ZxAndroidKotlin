@@ -13,17 +13,17 @@
         app:title_text="@string/advanced_about_title"/>
 
     <com.zx.view.widget.MessageView
-        android:id="@+id/msg_key_search"
+        android:id="@+id/msgKeySearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/activity_padding"
         app:message_text="@string/app_name"
         app:title_text="@string/key_search"/>
 
-    <include layout="@layout/include_divider_ex"/>
+    <include layout="@layout/include_divider"/>
 
     <com.zx.view.widget.MessageView
-        android:id="@+id/msg_preview_order"
+        android:id="@+id/msgPreviewOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/activity_padding"

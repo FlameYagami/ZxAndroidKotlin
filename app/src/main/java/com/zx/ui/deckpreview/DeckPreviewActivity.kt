@@ -9,7 +9,6 @@ import com.zx.game.utils.DeckUtils
 import com.zx.ui.base.BaseActivity
 import com.zx.ui.deckeditor.DeckEditorActivity
 import com.zx.uitls.FileUtils
-import com.zx.uitls.IntentUtils
 import com.zx.uitls.JsonUtils
 import com.zx.view.dialog.DialogEditText
 import io.reactivex.Observable
@@ -17,6 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_deck_preview.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.startActivity
 import java.util.*
 
 /**
@@ -45,12 +45,12 @@ class DeckPreviewActivity : BaseActivity() {
         viewAppBar.setNavigationClickListener { onBackPressed() }
         val linearLayoutManager = LinearLayoutManager(this)
         mDeckPreviewAdapter = DeckPreviewAdapter(this)
-        rv_deckpreview.layoutManager = linearLayoutManager
-        rv_deckpreview.adapter = mDeckPreviewAdapter
+        rvDeckPreview.layoutManager = linearLayoutManager
+        rvDeckPreview.adapter = mDeckPreviewAdapter
 
         mDeckPreviewAdapter.setOnItemClickListener { _: View, _: List<*>, _: Int -> this::onItemClick }
         mDeckPreviewAdapter.setOnItemLongClickListener { _: View, _: List<*>, _: Int -> this::onItemLongClick }
-        fab_add.onClick { onAdd_Click() }
+        fabAdd.onClick { onAdd_Click() }
     }
 
     override fun onResume() {
@@ -78,12 +78,12 @@ class DeckPreviewActivity : BaseActivity() {
         }).show()
     }
 
-    fun onItemClick(view: View, data: List<*>, position: Int) {
+    fun onItemClick(data: List<*>, position: Int) {
         DeckEditorActivity.deckPreviewBean = data[position] as DeckPreviewBean
-        IntentUtils.gotoActivity(this, DeckEditorActivity::class.java)
+        startActivity<DeckEditorActivity>()
     }
 
-    fun onItemLongClick(view: View, data: List<*>, position: Int) {
+    fun onItemLongClick(data: List<*>, position: Int) {
         AlertDialog.Builder(this).setItems(arrayOf("重命名", "卡组另存", "卡组删除")) { dialog, which ->
             dialog.dismiss()
             if (which == 0) {

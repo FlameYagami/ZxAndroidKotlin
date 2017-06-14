@@ -11,13 +11,13 @@ object AbilityDetailBean {
     var abilityDetailMap = LinkedHashMap<String, Boolean>()
 
     init {
-        for ((key) in MapConst.AbilityDetailMap) {
+        for (key in MapConst.AbilityDetailMap.keys) {
             abilityDetailMap.put(key, false)
         }
     }
 
     fun initAbilityDetailMap() {
-        for ((key) in abilityDetailMap) {
+        for (key in abilityDetailMap.keys) {
             abilityDetailMap.put(key, false)
         }
     }

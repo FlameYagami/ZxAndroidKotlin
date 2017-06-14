@@ -1,6 +1,5 @@
 package com.zx.game.service
 
-import com.zx.config.MyApp
 import com.zx.uitls.LogUtils
 import java.io.IOException
 import java.io.InputStream
@@ -32,7 +31,6 @@ internal class ClientInputThread(private val socket: Socket) : Thread() {
         try {
             clientInputCache = ClientInputCache (object : ClientInputCache.OnReadListener{
                 override fun read(bytes: ByteArray) {
-                    MyApp.Client?.receive(bytes)
                     LogUtils.e(TAG, "Read->完整数据包" + Arrays.toString(bytes))
                 }
             })

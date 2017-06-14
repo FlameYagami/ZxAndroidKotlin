@@ -41,7 +41,7 @@ internal class DeckAdapter(context: Context) : BaseRecyclerViewAdapter(context) 
     }
 
     internal class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imgThumbnail = itemView.img_thumbnail
+        var imgThumbnail = itemView.imgThumbnail
     }
 
     companion object {

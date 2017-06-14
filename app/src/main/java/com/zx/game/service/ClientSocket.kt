@@ -1,8 +1,5 @@
 package com.zx.game.service
 
-import com.zx.config.MyApp
-import com.zx.game.message.ModBusCreator
-
 import java.net.InetSocketAddress
 import java.net.Socket
 
@@ -92,7 +89,7 @@ internal constructor(private val ip: String, private val port: Int, private val 
             isRun = true
             while (isRun) {
                 try {
-                    MyApp.Client?.send(ModBusCreator.onHeart())
+
                     Thread.sleep(15000)
                 } catch (e: Exception) {
                     e.printStackTrace()

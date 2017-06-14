@@ -57,7 +57,7 @@ object LogUtils {
     }
 
     fun e(ex: Throwable) {
-        log(Log.ERROR, ex, null!!)
+        log(Log.ERROR, ex, "")
     }
 
     fun e(tag: String, vararg args: Any) {

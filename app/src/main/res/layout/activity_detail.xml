@@ -21,7 +21,7 @@
         android:orientation="horizontal">
 
         <com.youth.banner.Banner
-            android:id="@+id/banner"
+            android:id="@+id/bannerPack"
             android:layout_width="150dp"
             android:layout_height="210dp"
             app:is_auto_play="false"/>
@@ -38,7 +38,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_cname"
+                    android:id="@+id/tvCname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -47,7 +47,7 @@
                     android:textSize="20sp"/>
 
                 <TextView
-                    android:id="@+id/tv_jname"
+                    android:id="@+id/tvJname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -77,13 +77,13 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/img_camp0"
+                    android:id="@+id/imgCamp0"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_camp_red"/>
 
                 <ImageView
-                    android:id="@+id/img_camp1"
+                    android:id="@+id/imgCamp1"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="4dp"
@@ -91,7 +91,7 @@
                     android:src="@drawable/ic_camp_blue"/>
 
                 <ImageView
-                    android:id="@+id/img_camp2"
+                    android:id="@+id/imgCamp2"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="4dp"
@@ -99,7 +99,7 @@
                     android:src="@drawable/ic_camp_white"/>
 
                 <ImageView
-                    android:id="@+id/img_camp3"
+                    android:id="@+id/imgCamp3"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="4dp"
@@ -107,7 +107,7 @@
                     android:src="@drawable/ic_camp_black"/>
 
                 <ImageView
-                    android:id="@+id/img_camp4"
+                    android:id="@+id/imgCamp4"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="4dp"
@@ -115,7 +115,7 @@
                     android:src="@drawable/ic_camp_green"/>
 
                 <ImageView
-                    android:id="@+id/img_sign"
+                    android:id="@+id/imgSign"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -129,14 +129,14 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_type"
+                    android:id="@+id/tvType"
                     style="@style/layout_wrap_content"
                     android:gravity="center"
                     android:text="@string/type_test"
                     android:textSize="16sp"/>
 
                 <TextView
-                    android:id="@+id/tv_race"
+                    android:id="@+id/tvRace"
                     style="@style/layout_wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -145,7 +145,7 @@
                     android:textSize="16sp"/>
 
                 <TextView
-                    android:id="@+id/tv_rare"
+                    android:id="@+id/tvRare"
                     style="@style/layout_wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -161,14 +161,14 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin">
 
                 <TextView
-                    android:id="@+id/tv_number"
+                    android:id="@+id/tvNumber"
                     style="@style/layout_wrap_content"
                     android:gravity="center"
                     android:text="@string/number_test"
                     android:textSize="16sp"/>
 
                 <TextView
-                    android:id="@+id/tv_power"
+                    android:id="@+id/tvPower"
                     style="@style/layout_wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -177,7 +177,7 @@
                     android:textSize="16sp"/>
 
                 <TextView
-                    android:id="@+id/tv_cost"
+                    android:id="@+id/tvCost"
                     style="@style/layout_wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -188,7 +188,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_ability"
+                android:id="@+id/tvAbility"
                 style="@style/layout_wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:gravity="center_vertical"
@@ -196,7 +196,7 @@
                 android:textSize="16sp"/>
 
             <TextView
-                android:id="@+id/tv_lines"
+                android:id="@+id/tvLines"
                 style="@style/layout_wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:gravity="center_vertical"
@@ -204,7 +204,7 @@
                 android:textSize="16sp"/>
 
             <TextView
-                android:id="@+id/tv_faq"
+                android:id="@+id/tvFaq"
                 style="@style/layout_wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:gravity="center_vertical"

@@ -12,8 +12,9 @@ import com.zx.config.MyApp
 import com.zx.uitls.AppManager
 import com.zx.uitls.DisplayUtils
 import com.zx.uitls.StatusBarUtils
-import com.zx.view.dialog.DialogLoading
+import com.zx.view.dialog.DialogLoadingUtils
 import com.zx.view.widget.ToastView
+
 
 abstract class BaseExActivity : Activity() {
 
@@ -26,11 +27,11 @@ abstract class BaseExActivity : Activity() {
     }
 
     protected fun showDialog(message: String) {
-        DialogLoading.showDialog(this, message, false)
+        DialogLoadingUtils.show(this, message)
     }
 
     protected fun hideDialog() {
-        DialogLoading.hideDialog()
+        DialogLoadingUtils.hide()
     }
 
     abstract val layoutId: Int
@@ -45,9 +46,6 @@ abstract class BaseExActivity : Activity() {
         AppManager.instance().addActivity(this)
     }
 
-    /**
-     * 点击空白位置 隐藏软键盘
-     */
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (null != this.currentFocus) {
             DisplayUtils.hideKeyboard(this)
@@ -57,7 +55,6 @@ abstract class BaseExActivity : Activity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        DialogLoading.hideDialog()
     }
 
     override fun onDestroy() {

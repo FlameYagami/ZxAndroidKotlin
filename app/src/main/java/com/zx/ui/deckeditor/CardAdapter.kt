@@ -43,8 +43,8 @@ class CardAdapter internal constructor(context: Context) : BaseRecyclerViewAdapt
     }
 
     internal class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imgThumbnail = itemView.img_thumbnail
-        var imgRestrict = itemView.img_restrict
+        var imgThumbnail = itemView.imgThumbnail
+        var imgRestrict = itemView.imgRestrict
     }
 
     companion object {

@@ -6,9 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.IBinder
-
-import com.zx.config.MyApp
-import com.zx.game.message.MessageManager
 import com.zx.uitls.LogUtils
 
 
@@ -19,7 +16,6 @@ class ClientService : Service() {
 
     private var mClientSocket: ClientSocket? = null
     private var mReceiver: BroadcastReceiver? = null
-    private var mMessageManager: MessageManager? = null
 
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -77,9 +73,7 @@ class ClientService : Service() {
         mClientSocket = ClientSocket(serviceIP, servicePort , object : ClientSocket.ConnectedListener{
             override fun isConnected(isConnected: Boolean) {
                 if (isConnected) {
-                    mMessageManager = MessageManager(mClientSocket as ClientSocket)
-                    mMessageManager?.start()
-                    MyApp.Client?.initMessageManager(mMessageManager as MessageManager)
+
                 }
             }
         })
@@ -91,7 +85,6 @@ class ClientService : Service() {
         super.onDestroy()
         closeSocket()
         unregisterReceiver(mReceiver)
-        mMessageManager?.finish()
         LogUtils.d(TAG, "onDestroy")
     }
 

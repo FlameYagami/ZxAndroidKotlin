@@ -5,7 +5,6 @@ import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
 import com.zx.R
-import kotlinx.android.synthetic.main.dialog_bottom.*
 import kotlinx.android.synthetic.main.dialog_edittext.*
 
 /**
@@ -24,8 +23,8 @@ class DialogEditText(context: Context, title: String, content: String, hint: Str
         editText.hint = hint
         editText.setText(content)
         editText.setSelection(editText.text.length)
-        tv_cancel.setOnClickListener { dismiss() }
-        tv_ok.setOnClickListener {
+        btnCancel.setOnClickListener { dismiss() }
+        btnOk.setOnClickListener {
             val text = editText.text.toString().trim { it <= ' ' }
             if (!TextUtils.isEmpty(text)) {
                 mButtonClickListener.invoke(this, text)

@@ -35,13 +35,13 @@ internal class ResultAdapter(context: Context) : BaseRecyclerViewAdapter(context
     }
 
     internal class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var imgRestrict = view.img_restrict
-        var imgThumbnail = view.img_thumbnail
-        var tvCname = view.tv_cname
-        var tvRace = view.tv_race
+        var imgRestrict = view.imgRestrict
+        var imgThumbnail = view.imgThumbnail
+        var tvCname = view.tvCname
+        var tvRace = view.tvRace
         var tvCamp = view.tv_camp
-        var tvPower = view.tv_power
-        var tvCost = view.tv_cost
+        var tvPower = view.tvPower
+        var tvCost = view.tvCost
         var linearLayout = view.linearLayout
     }
 }

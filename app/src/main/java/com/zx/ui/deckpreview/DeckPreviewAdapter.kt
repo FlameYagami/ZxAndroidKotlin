@@ -39,9 +39,9 @@ internal class DeckPreviewAdapter(context: Context) : BaseRecyclerViewAdapter(co
 
     internal class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var linearLayout = view.linearLayout
-        var imgThumbnail = view.img_thumbnail
-        var tvStatusMain = view.tv_status_main
-        var tvStatusExtra = view.tv_status_extra
-        var tvDeckName = view.tv_deck_name
+        var imgThumbnail = view.imgThumbnail
+        var tvStatusMain = view.tvStatusMain
+        var tvStatusExtra = view.tvStatusExtra
+        var tvDeckName = view.tvDeckName
     }
 }

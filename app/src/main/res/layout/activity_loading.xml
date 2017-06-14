@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/img_bg_loading"
+        android:id="@+id/imgBgLoading"
         android:src="@drawable/ic_bg_loading"
         android:scaleType="centerCrop"
         style="@style/layout_match_parent"/>
@@ -19,7 +19,7 @@
         android:layout_margin="@dimen/activity_margin">
 
         <ProgressBar
-            android:id="@+id/prg_loading"
+            android:id="@+id/prgLoading"
             style="@style/StyleProgressBarMini"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             android:max="100"/>
 
         <TextView
-            android:id="@+id/prg_hint"
+            android:id="@+id/prgHint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

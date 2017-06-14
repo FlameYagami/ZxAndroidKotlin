@@ -15,7 +15,7 @@ object KeySearchBean {
     private val keySearchMap = LinkedHashMap<String, Boolean>()
 
     init {
-        for ((key) in MapConst.KeySearchMap) {
+        for (key in MapConst.KeySearchMap.keys) {
             keySearchMap.put(key, true)
         }
     }
@@ -28,7 +28,7 @@ object KeySearchBean {
         }
         // 解析保存的关键字查询范围
         val keySearchList = JsonUtils.deserializerArray(keySearchJson, Array<String>::class.java)!!
-        for ((key) in keySearchMap) {
+        for (key in keySearchMap.keys) {
             for (keySearch in keySearchList) {
                 if (key == keySearch) {
                     keySearchMap.put(key, true)
@@ -50,7 +50,7 @@ object KeySearchBean {
     }
 
     fun saveKeySearchMap(keySearchMap: LinkedHashMap<String, Boolean>) {
-        val keySearchJson = JsonUtils.serializer(KeySearchBean.keySearchMap.filter { it.value }.map { it.key })
+        val keySearchJson = JsonUtils.serializer(keySearchMap.filter { it.value }.map { it.key })
         SpUtil.instance.putString(SpConst.KeySearch, keySearchJson)
     }
 }

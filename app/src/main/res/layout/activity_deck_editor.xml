@@ -40,7 +40,7 @@
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_preview"
+            android:id="@+id/rvPreview"
             style="@style/recyclerview"
             android:scrollbars="horizontal"/>
 
@@ -61,17 +61,17 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_ig"
+                    android:id="@+id/rvIg"
                     style="@style/recyclerview"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_marginTop="4dp"
-                    android:id="@+id/rv_ug"
+                    android:id="@+id/rvUg"
                     style="@style/recyclerview"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_marginTop="4dp"
-                    android:id="@+id/rv_ex"
+                    android:id="@+id/rvEx"
                     style="@style/recyclerview"/>
 
             </LinearLayout>

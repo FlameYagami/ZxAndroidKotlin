@@ -16,13 +16,12 @@ import com.zx.ui.base.BaseActivity
 import com.zx.ui.deckeditor.DeckEditorActivity
 import com.zx.ui.main.MainActivity
 import com.zx.ui.result.ResultActivity
-import com.zx.uitls.IntentUtils
 import com.zx.uitls.database.SQLiteUtils
 import com.zx.uitls.database.SqlUtils
 import com.zx.view.dialog.DialogCheckBox
 import kotlinx.android.synthetic.main.activity_advanced_search.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import java.util.*
+import org.jetbrains.anko.startActivity
 
 /**
  * Created by 八神火焰 on 2016/12/10.
@@ -43,25 +42,23 @@ class AdvancedSearchActivity : BaseActivity() {
         mCampArray = resources.getStringArray(R.array.camp)
         viewAppBar.setNavigationClickListener { onBackPressed() }
         fromActivity = intent.extras.getString(Activity::class.java.simpleName, "")
-        cmb_illust.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CardUtils.illust)
-        cmb_pack.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CardUtils.allPack)
-        cmb_camp.onItemSelectedListener = onCampItemSelectedListener
-        btn_ability_type.onClick { onAbilityType_Click() }
-        btn_ability_detail.onClick { onAbilityDetail_Click() }
-        fab_search.onClick { onSearch_Click() }
-        fab_reset.onClick { onReset_Click() }
+        cmbIllust.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CardUtils.illust)
+        cmbPack.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CardUtils.allPack)
+        cmbCamp.onItemSelectedListener = onCampItemSelectedListener
+        btnAbilityType.onClick { onAbilityType_Click() }
+        btnAbilityDetail.onClick { onAbilityDetail_Click() }
+        fabSearch.onClick { onSearch_Click() }
+        fabReset.onClick { onReset_Click() }
         AbilityTypeBean.initAbilityTypeMap()
         AbilityDetailBean.initAbilityDetailMap()
     }
 
     fun onAbilityType_Click() {
-        DialogCheckBox(this, "基础分类", AbilityTypeBean.abilityTypeMap,
-                { mCheckboxMap: LinkedHashMap<String, Boolean> -> AbilityTypeBean.abilityTypeMap = mCheckboxMap }).show()
+        DialogCheckBox(this, "基础分类", AbilityTypeBean.abilityTypeMap, { AbilityTypeBean.abilityTypeMap = it }).show()
     }
 
     fun onAbilityDetail_Click() {
-        DialogCheckBox(this, "扩展分类", AbilityDetailBean.abilityDetailMap,
-                { mCheckboxMap: LinkedHashMap<String, Boolean> -> AbilityDetailBean.abilityDetailMap = mCheckboxMap }).show()
+        DialogCheckBox(this, "扩展分类", AbilityDetailBean.abilityDetailMap, { AbilityDetailBean.abilityDetailMap = it }).show()
     }
 
     fun onSearch_Click() {
@@ -77,24 +74,24 @@ class AdvancedSearchActivity : BaseActivity() {
                 super.onBackPressed()
             } else if (fromActivity == MainActivity::class.java.simpleName) {
                 ResultActivity.cardBeanList = cardList.toMutableList()
-                IntentUtils.gotoActivity(this, ResultActivity::class.java)
+                startActivity<ResultActivity>()
             }
         }
     }
 
     val cardBean: CardBean
         get() {
-            val Type = cmb_type.selectedItem.toString()
-            val Camp = cmb_camp.selectedItem.toString()
-            val Race = cmb_race.selectedItem.toString()
-            val Sign = cmb_sign.selectedItem.toString()
-            val Rare = cmb_rare.selectedItem.toString()
-            val Pack = cmb_pack.selectedItem.toString()
-            val Illust = cmb_illust.selectedItem.toString()
-            val Restrict = cmb_restrict.selectedItem.toString()
-            val Key = txt_key.text.toString().trim { it <= ' ' }
-            val Cost = txt_cost.text.toString().trim { it <= ' ' }
-            val Power = txt_power.text.toString().trim { it <= ' ' }
+            val Type = cmbType.selectedItem.toString()
+            val Camp = cmbCamp.selectedItem.toString()
+            val Race = cmbRace.selectedItem.toString()
+            val Sign = cmbSign.selectedItem.toString()
+            val Rare = cmbRare.selectedItem.toString()
+            val Pack = cmbPack.selectedItem.toString()
+            val Illust = cmbIllust.selectedItem.toString()
+            val Restrict = cmbRestrict.selectedItem.toString()
+            val Key = txtKey.text.toString().trim()
+            val Cost = txtCost.text.toString().trim()
+            val Power = txtPower.text.toString().trim()
             val AbilityType = SqlUtils.getAbilityTypeSql(AbilityTypeBean.abilityTypeMap)
             val AbilityDetail = SqlUtils.getAbilityDetailSql(AbilityDetailBean.abilityDetailMap)
             return CardBean(Key, Type, Camp, Race, Sign, Rare, Pack, Illust, Restrict, Cost, Power, AbilityType, AbilityDetail)
@@ -103,7 +100,7 @@ class AdvancedSearchActivity : BaseActivity() {
     private val onCampItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
         override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-            cmb_race.adapter = ArrayAdapter(this@AdvancedSearchActivity, android.R.layout.simple_spinner_item, CardUtils.getPartRace(mCampArray?.get(position) as String))
+            cmbRace.adapter = ArrayAdapter(this@AdvancedSearchActivity, android.R.layout.simple_spinner_item, CardUtils.getPartRace(mCampArray?.get(position) as String))
         }
 
         override fun onNothingSelected(parent: AdapterView<*>) {
@@ -112,17 +109,17 @@ class AdvancedSearchActivity : BaseActivity() {
     }
 
     fun onReset_Click() {
-        cmb_type.setSelection(0)
-        cmb_camp.setSelection(0)
-        cmb_race.setSelection(0)
-        cmb_sign.setSelection(0)
-        cmb_rare.setSelection(0)
-        cmb_pack.setSelection(0)
-        cmb_illust.setSelection(0)
-        cmb_restrict.setSelection(0)
-        txt_key.setText("")
-        txt_cost.setText("")
-        txt_power.setText("")
+        cmbType.setSelection(0)
+        cmbCamp.setSelection(0)
+        cmbRace.setSelection(0)
+        cmbSign.setSelection(0)
+        cmbRare.setSelection(0)
+        cmbPack.setSelection(0)
+        cmbIllust.setSelection(0)
+        cmbRestrict.setSelection(0)
+        txtKey.setText("")
+        txtCost.setText("")
+        txtPower.setText("")
         AbilityTypeBean.initAbilityTypeMap()
         AbilityDetailBean.initAbilityDetailMap()
     }

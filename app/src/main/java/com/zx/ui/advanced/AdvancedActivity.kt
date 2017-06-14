@@ -26,23 +26,23 @@ class AdvancedActivity : BaseActivity() {
     override fun initViewAndData() {
         mOrderPatternArrays = resources.getStringArray(R.array.order)
         viewAppBar.setNavigationClickListener { onBackPressed() }
-        msg_preview_order.setDefaultSp(SpConst.OrderPattern, mOrderPatternArrays!![0])
-        msg_key_search.setValue(StringUtils.changeList2String(KeySearchBean.selectKeySearchList))
-        msg_preview_order.onClick { onOrderPattern_Click() }
-        msg_key_search.onClick { onKeySearch_Click() }
+        msgPreviewOrder.setDefaultSp(SpConst.OrderPattern, mOrderPatternArrays!![0])
+        msgKeySearch.setValue(StringUtils.changeList2String(KeySearchBean.selectKeySearchList))
+        msgPreviewOrder.onClick { onOrderPattern_Click() }
+        msgKeySearch.onClick { onKeySearch_Click() }
     }
 
     fun onOrderPattern_Click() {
         AlertDialog.Builder(this)
                 .setTitle(getString(R.string.preview_order))
-                .setItems(mOrderPatternArrays) { _, index -> msg_key_search.setDefaultSp(SpConst.OrderPattern, mOrderPatternArrays?.get(index) as String) }
+                .setItems(mOrderPatternArrays) { _, index -> msgKeySearch.setDefaultSp(SpConst.OrderPattern, mOrderPatternArrays?.get(index) as String) }
                 .show()
     }
 
     fun onKeySearch_Click() {
         DialogCheckBox(this, getString(R.string.key_search), KeySearchBean.getKeySearchMap(), { mCheckboxMap ->
             KeySearchBean.saveKeySearchMap(mCheckboxMap)
-            msg_key_search.setValue(StringUtils.changeList2String(KeySearchBean.selectKeySearchList))
+            msgKeySearch.setValue(StringUtils.changeList2String(KeySearchBean.selectKeySearchList))
         }).show()
     }
 }

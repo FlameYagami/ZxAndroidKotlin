@@ -16,9 +16,7 @@ import com.zx.ui.deckpreview.DeckPreviewActivity
 import com.zx.ui.result.ResultActivity
 import com.zx.ui.setting.SettingActivity
 import com.zx.uitls.AppManager
-import com.zx.uitls.BundleUtils
 import com.zx.uitls.DisplayUtils
-import com.zx.uitls.IntentUtils
 import com.zx.uitls.database.SQLiteUtils
 import com.zx.uitls.database.SqlUtils
 import com.zx.view.banner.BannerImageLoader
@@ -26,42 +24,47 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.startActivity
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private var firstTime: Long = 0
+
+    companion object {
+        private val TAG = MainActivity::class.java.simpleName
+    }
 
     override val layoutId: Int
         get() = R.layout.activity_main
 
     override fun initViewAndData() {
         viewAppBar.setNavigationClickListener { view_drawer.openDrawer(GravityCompat.START) }
-        nav_view.setNavigationItemSelectedListener(this)
+        navView.setNavigationItemSelectedListener(this)
         // 主界面不可调用SwipeBack
         setSwipeBackEnable(false)
-        initBGABanner()
-        Observable.just(this).observeOn(Schedulers.newThread()).subscribe {
+        initBannerPack()
+        Observable.just(this).observeOn(Schedulers.io()).subscribe {
             RestrictUtils.getRestrictList()
             SQLiteUtils.getAllCardList()
         }
     }
 
-    private fun initBGABanner() {
+    private fun initBannerPack() {
         val heightPx = (DisplayUtils.screenWidth - DisplayUtils.dip2px((16 * 2).toFloat())) * 29 / 68
         val marginPx = DisplayUtils.dip2px(16f)
         val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, heightPx)
         params.setMargins(marginPx, marginPx, marginPx, marginPx)
-        banner.layoutParams = params
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
-        banner.setIndicatorGravity(BannerConfig.RIGHT)
-        banner.setImageLoader(BannerImageLoader())
-        banner.setImages(MapConst.GuideMap.entries.map { it.value })
-        banner.setOnBannerClickListener { position ->
+        bannerPack.layoutParams = params
+        bannerPack.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
+        bannerPack.setIndicatorGravity(BannerConfig.RIGHT)
+        bannerPack.setImageLoader(BannerImageLoader())
+        bannerPack.setImages(MapConst.GuideMap.entries.map { it.value })
+        bannerPack.setOnBannerClickListener { position ->
             val querySql = SqlUtils.getPackQuerySql(MapConst.GuideMap.entries.map { it.key }[position - 1])
             ResultActivity.cardBeanList = SQLiteUtils.getCardList(querySql).toMutableList()
-            IntentUtils.gotoActivity(this, ResultActivity::class.java)
+            startActivity<ResultActivity>()
         }
-        banner.start()
-        fab_search.onClick { onSearch_Click() }
+        bannerPack.start()
+        fabSearch.onClick { onSearch_Click() }
     }
 
     /**
@@ -69,13 +72,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
      */
     fun onSearch_Click() {
         DisplayUtils.hideKeyboard(this)
-        val querySql = SqlUtils.getKeyQuerySql(txt_search.text.toString().trim { it <= ' ' })
+        val querySql = SqlUtils.getKeyQuerySql(txtSearch.text.toString().trim())
         val cardBeanList = SQLiteUtils.getCardList(querySql)
         if (cardBeanList.isEmpty()) {
-            showToast("没有查询到相关卡牌")
+            showToast(getString(R.string.main_card_not_found))
         } else {
             ResultActivity.cardBeanList = cardBeanList.toMutableList()
-            IntentUtils.gotoActivity(this, ResultActivity::class.java)
+            startActivity<ResultActivity>()
         }
     }
 
@@ -89,7 +92,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 AppManager.instance().AppExit(this)
             } else {
                 firstTime = lastTime
-                showSnackBar(view_content, "再按一次退出应用")
+                showSnackBar(view_content, getString(R.string.main_exit_app))
             }
         }
     }
@@ -97,25 +100,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_advanced_search -> {
-                IntentUtils.gotoActivity(this, AdvancedSearchActivity::class.java, BundleUtils.putString(Activity::class.java.simpleName, MainActivity::class.java.simpleName))
+                startActivity<AdvancedSearchActivity>(Activity::class.java.simpleName to MainActivity::class.java.simpleName)
             }
             R.id.nav_deck_preview -> {
-                IntentUtils.gotoActivity(this, DeckPreviewActivity::class.java)
+                startActivity<DeckPreviewActivity>()
             }
-        //            case R.id.nav_duel: {
-        //                IntentUtils.gotoActivity(this, VersusModeActivity.class);
-        //                break;
-        //            }
             R.id.nav_setting -> {
-                IntentUtils.gotoActivity(this, SettingActivity::class.java)
+                startActivity<SettingActivity>()
             }
         }
         view_drawer.closeDrawer(GravityCompat.START)
         return false
-    }
-
-    companion object {
-
-        private val TAG = MainActivity::class.java.simpleName
     }
 }

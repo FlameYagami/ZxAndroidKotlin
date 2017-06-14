@@ -12,6 +12,7 @@ import com.zx.uitls.LogUtils
 import com.zx.uitls.SpUtil
 import java.util.*
 
+
 /**
  * Created by 八神火焰 on 2016/12/13.
  */
@@ -25,7 +26,6 @@ class SqlUtils : SQLitConst {
             builder.append(headerSql)// 基础查询语句
             builder.append(SqlUtils.getAllKeySql(key)) // 关键字
             builder.append(footerSql) // 排序
-            LogUtils.i(TAG, builder.toString())
             return builder.toString() // 完整的查询语句
         }
 
@@ -34,7 +34,6 @@ class SqlUtils : SQLitConst {
             builder.append(headerSql)// 基础查询语句
             builder.append(SqlUtils.getSimilarSql(key, SQLitConst.ColumnPack)) // 关键字
             builder.append(footerSql) // 排序
-            LogUtils.i(TAG, builder.toString())
             return builder.toString() // 完整的查询语句
         }
 
@@ -202,7 +201,7 @@ class SqlUtils : SQLitConst {
                 return ""
             }
             val tempValue = StringBuilder()
-            val keyList = value.split(" ".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray() // 以空格分割关键字
+            val keyList = value.split(" ") // 以空格分割关键字
             for (key in keyList) {
                 tempValue.append(" AND ( JName LIKE '%" + key + "%' " + getPartKeySql(key) + ")")
             }
@@ -212,7 +211,7 @@ class SqlUtils : SQLitConst {
         private fun getPartKeySql(value: String): String {
             val tempValue = StringBuilder()
             KeySearchBean.selectKeySearchList
-                    .map { MapConst.KeySearchMap.filter { entry -> it == entry.key }.map { value } }
+                    .map { MapConst.KeySearchMap[it] }
                     .forEach { tempValue.append(" OR $it LIKE '%$value%'") }
             return tempValue.toString()
         }

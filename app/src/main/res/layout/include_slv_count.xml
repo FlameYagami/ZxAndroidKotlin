@@ -14,7 +14,7 @@
         android:textSize="@dimen/roboto_medium"/>
 
     <TextView
-        android:id="@+id/tv_start_count"
+        android:id="@+id/tvStartCount"
         android:layout_width="24dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -28,7 +28,7 @@
         android:textSize="@dimen/roboto_medium"/>
 
     <TextView
-        android:id="@+id/tv_life_count"
+        android:id="@+id/tvLifeCount"
         android:layout_width="24dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -42,7 +42,7 @@
         android:textSize="@dimen/roboto_medium"/>
 
     <TextView
-        android:id="@+id/tv_void_count"
+        android:id="@+id/tvVoidCount"
         android:layout_width="24dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"

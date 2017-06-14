@@ -12,7 +12,6 @@
         app:title_text="@string/advanced_search_about_title"/>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         style="@style/layout_match_parent"
         android:layout_below="@+id/viewAppBar"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -31,7 +30,7 @@
                 android:text="@string/key"/>
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/txt_key"
+                android:id="@+id/txtKey"
                 style="@style/StyleEditText"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
@@ -51,7 +50,7 @@
                 android:text="@string/cost"/>
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/txt_cost"
+                android:id="@+id/txtCost"
                 style="@style/StyleEditText"
                 android:layout_width="0dp"
                 android:layout_height="32dp"
@@ -64,7 +63,7 @@
                 android:text="@string/power"/>
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/txt_power"
+                android:id="@+id/txtPower"
                 style="@style/StyleEditText"
                 android:layout_width="0dp"
                 android:layout_height="32dp"
@@ -84,7 +83,7 @@
                 android:text="@string/pack"/>
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmb_pack"
+                android:id="@+id/cmbPack"
                 style="@style/StyleSpinner"
                 android:layout_width="0dip"
                 android:layout_height="32dp"
@@ -105,7 +104,7 @@
                 android:text="@string/illust"/>
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmb_illust"
+                android:id="@+id/cmbIllust"
                 style="@style/StyleSpinner"
                 android:layout_width="0dip"
                 android:layout_height="32dp"
@@ -126,7 +125,7 @@
                 android:text="@string/type"/>
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmb_type"
+                android:id="@+id/cmbType"
                 style="@style/StyleSpinner"
                 android:layout_width="0dip"
                 android:layout_height="32dp"
@@ -140,7 +139,7 @@
                 android:text="@string/camp"/>
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmb_camp"
+                android:id="@+id/cmbCamp"
                 style="@style/StyleSpinner"
                 android:layout_width="0dip"
                 android:layout_height="32dp"
@@ -161,7 +160,7 @@
                 android:text="@string/race"/>
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmb_race"
+                android:id="@+id/cmbRace"
                 style="@style/StyleSpinner"
                 android:layout_width="0dip"
                 android:layout_height="32dp"
@@ -175,7 +174,7 @@
                 android:text="@string/sign"/>
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmb_sign"
+                android:id="@+id/cmbSign"
                 style="@style/StyleSpinner"
                 android:layout_width="0dip"
                 android:layout_height="32dp"
@@ -196,7 +195,7 @@
                 android:text="@string/rare"/>
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmb_rare"
+                android:id="@+id/cmbRare"
                 style="@style/StyleSpinner"
                 android:layout_width="0dip"
                 android:layout_height="32dp"
@@ -210,7 +209,7 @@
                 android:text="@string/restrict"/>
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmb_restrict"
+                android:id="@+id/cmbRestrict"
                 style="@style/StyleSpinner"
                 android:layout_width="0dip"
                 android:layout_height="32dp"
@@ -227,7 +226,7 @@
             android:gravity="center_vertical">
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btn_ability_type"
+                android:id="@+id/btnAbilityType"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -237,7 +236,7 @@
                 android:text="@string/ability_type"/>
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btn_ability_detail"
+                android:id="@+id/btnAbilityDetail"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -251,7 +250,7 @@
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_search"
+        android:id="@+id/fabSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -261,7 +260,7 @@
         android:src="@android:drawable/ic_menu_search"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_reset"
+        android:id="@+id/fabReset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -6,12 +6,12 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/img_thumbnail"
+        android:id="@+id/imgThumbnail"
         android:layout_width="50dp"
         android:layout_height="70dp"/>
 
     <ImageView
-        android:id="@+id/img_restrict"
+        android:id="@+id/imgRestrict"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_margin="2dp"

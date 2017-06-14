@@ -11,13 +11,13 @@ object AbilityTypeBean {
     var abilityTypeMap = LinkedHashMap<String, Boolean>()
 
     init {
-        for ((key) in MapConst.AbilityTypeMap) {
+        for (key in MapConst.AbilityTypeMap.keys) {
             abilityTypeMap.put(key, false)
         }
     }
 
     fun initAbilityTypeMap() {
-        for ((key) in abilityTypeMap) {
+        for (key in abilityTypeMap.keys) {
             abilityTypeMap.put(key, false)
         }
     }
