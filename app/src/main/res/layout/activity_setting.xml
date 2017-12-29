@@ -5,14 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.zx.view.widget.AppBarView
+    <com.dab.zx.uc.widget.AppBarView
         android:id="@+id/viewAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title_text="@string/setting_about_title">
-    </com.zx.view.widget.AppBarView>
+    </com.dab.zx.uc.widget.AppBarView>
 
-    <com.zx.view.widget.SelectView
+    <com.dab.zx.uc.widget.SelectView
         android:id="@+id/selAdvance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
 
     <include layout="@layout/include_divider"/>
 
-    <com.zx.view.widget.SelectView
+    <com.dab.zx.uc.widget.SelectView
         android:id="@+id/selDocument"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
 
     <include layout="@layout/include_divider"/>
 
-    <com.zx.view.widget.SelectView
+    <com.dab.zx.uc.widget.SelectView
         android:id="@+id/selAbout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

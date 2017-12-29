@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.dab.zx.viewmodel.CardPreviewVm"/>
+    </data>
+
+    <LinearLayout
+        style="@style/layout_match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical">
+
+        <com.dab.zx.uc.widget.AppBarView
+            android:id="@+id/viewAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title_text="@string/card_preview_about_title">
+        </com.dab.zx.uc.widget.AppBarView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvResult"
+            style="@style/layout_match_parent"
+            bind:adapter="@{vm.adapter}"
+            bind:data="@{vm.cardList}"
+            android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    </LinearLayout>
+</layout>
+
+

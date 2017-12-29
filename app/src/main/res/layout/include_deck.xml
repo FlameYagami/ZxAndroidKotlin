@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include layout="@layout/include_ig_stats"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvIg"
+        style="@style/recyclerview"/>
+
+    <include layout="@layout/include_ug_stats"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvUg"
+        style="@style/recyclerview"/>
+
+    <include layout="@layout/include_ex_stats"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvEx"
+        style="@style/recyclerview"/>
+</merge>

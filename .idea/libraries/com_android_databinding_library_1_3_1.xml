@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="com.android.databinding:library-1.3.1">
+    <CLASSES>
+      <root url="jar://D:/avd/.gradle/caches/transforms-1/files-1.1/library-1.3.1.aar/63ba6bf78f72b6a9538d9e7cf7157fe5/jars/classes.jar!/" />
+      <root url="file://D:/avd/.gradle/caches/transforms-1/files-1.1/library-1.3.1.aar/63ba6bf78f72b6a9538d9e7cf7157fe5/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/sdk/extras/android/m2repository/com/android/databinding/library/1.3.1/library-1.3.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/sdk/extras/android/m2repository/com/android/databinding/library/1.3.1/library-1.3.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

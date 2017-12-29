@@ -8,30 +8,39 @@
 
     <ImageView
         android:id="@+id/imgBgLoading"
-        android:src="@drawable/ic_bg_loading"
+        style="@style/layout_match_parent"
         android:scaleType="centerCrop"
-        style="@style/layout_match_parent"/>
+        android:src="@drawable/ic_bg_loading"/>
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/activity_margin">
+        android:background="@color/transparent">
 
-        <ProgressBar
-            android:id="@+id/prgLoading"
-            style="@style/StyleProgressBarMini"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/prg_primary_bg"
-            android:max="100"/>
+            android:layout_margin="@dimen/activity_margin">
 
-        <TextView
-            android:id="@+id/prgHint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="@color/gold"/>
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/prgHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gold"
+                android:layout_gravity="center"/>
 
+            <ProgressBar
+                android:layout_marginTop="8dp"
+                android:id="@+id/prgLoading"
+                style="@style/StyleProgressBarMini"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="@drawable/prg_primary_bg"
+                android:max="100"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
 </RelativeLayout>

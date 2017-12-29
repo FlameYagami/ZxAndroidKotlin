@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/result_count"
+        android:text="@string/deck_editor_result_count"
         android:textSize="@dimen/roboto_medium"/>
 
     <TextView

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.dab.zx.bean.CardBean"/>
+
+        <import type="android.view.View"/>
+    </data>
+
+    <LinearLayout
+        android:id="@+id/viewItemContent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/activity_margin">
+
+                <ImageView
+                    android:id="@+id/img_thumbnail"
+                    bind:cardPreview="@{item.image}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/img_restrict"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_margin="2dp"
+                    android:src="@drawable/ic_restrict"
+                    android:visibility="@{item.restrict == &quot;0&quot; ? View.VISIBLE : View.GONE}"/>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{item.Cname}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/title_size"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        style="@style/layout_wrap_content"
+                        android:layout_width="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@{item.Camp}"
+                        android:textSize="@dimen/roboto_medium"/>
+
+                    <android.support.v7.widget.AppCompatTextView
+                        style="@style/layout_wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginStart="@dimen/activity_horizontal_margin"
+                        android:gravity="center_vertical"
+                        android:text="@{item.Race}"
+                        android:textSize="@dimen/roboto_medium"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        style="@style/layout_wrap_content"
+                        android:layout_width="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@{item.Cost}"
+                        android:textSize="@dimen/roboto_medium"/>
+
+                    <android.support.v7.widget.AppCompatTextView
+                        style="@style/layout_wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginStart="@dimen/activity_horizontal_margin"
+                        android:gravity="center_vertical"
+                        android:text="@{item.Power}"
+                        android:textSize="@dimen/roboto_medium"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <include layout="@layout/include_divider"/>
+    </LinearLayout>
+</layout>

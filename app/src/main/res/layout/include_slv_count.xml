@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/start_card"
+        android:text="@string/deck_editor_start_card"
         android:textSize="@dimen/roboto_medium"/>
 
     <TextView
@@ -24,7 +24,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/life_card"
+        android:text="@string/deck_editor_life_card"
         android:textSize="@dimen/roboto_medium"/>
 
     <TextView
@@ -38,7 +38,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/void_card"
+        android:text="@string/deck_editor_void_card"
         android:textSize="@dimen/roboto_medium"/>
 
     <TextView

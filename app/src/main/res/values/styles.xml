@@ -1,10 +1,4 @@
 <resources>
-    <style name="layout_statusbar">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="android:layout_height">@dimen/statusbar_height</item>
-        <item name="android:layout_width">match_parent</item>
-    </style>
-
     <style name="layout_shadowbar">
         <item name="android:background">@drawable/shadow_header</item>
         <item name="android:layout_height">2dp</item>
@@ -63,7 +57,7 @@
         <item name="android:progressDrawable">@drawable/prg_primary_mini</item>
     </style>
 
-    <style name="StyleSpinner" parent="Widget.AppCompat.Spinner.DropDown.ActionBar">
+    <style name="StyleSpinner" parent="Widget.AppCompat.Spinner.DropDown">
         <item name="android:background">@drawable/cmb_primary</item>
     </style>
 

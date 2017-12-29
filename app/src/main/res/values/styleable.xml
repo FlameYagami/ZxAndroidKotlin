@@ -3,6 +3,7 @@
     <declare-styleable name="AppBarView">
         <attr name="title_text" format="string"/>
         <attr name="menu_visible" format="boolean"/>
+        <attr name="scrollFlags" format="boolean"/>
         <attr name="navigation_src" format="reference"/>
         <attr name="menu_src" format="reference"/>
     </declare-styleable>
@@ -20,5 +21,13 @@
 
     <declare-styleable name="SwitchView">
         <attr name="title_text"/>
+    </declare-styleable>
+
+    <declare-styleable name="BannerExView">
+        <attr name="indicator_gravity" format="integer"/>
+        <attr name="banner_style" format="integer"/>
+        <attr name="enable_glide" format="boolean"/>
+        <attr name="enable_scale" format="boolean"/>
+        <attr name="banner_scale" format="float"/>
     </declare-styleable>
 </resources>

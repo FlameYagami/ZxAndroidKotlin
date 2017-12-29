@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="order">
-        <item>@string/order_by_value</item>
-        <item>@string/order_by_number</item>
+    <array name="preview_order">
+        <item>@string/value</item>
+        <item>@string/number</item>
+    </array>
+
+    <array name="not_applicable">
+        <item>@string/not_applicable</item>
     </array>
 
     <array name="none">

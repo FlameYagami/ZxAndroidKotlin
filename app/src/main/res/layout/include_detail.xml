@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/save"
+                android:text="@string/deck_editor_save"
                 android:textSize="12sp"/>
         </FrameLayout>
     </LinearLayout>
