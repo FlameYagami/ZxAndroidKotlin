@@ -2,7 +2,6 @@ package com.dab.zx.view.main
 
 import android.databinding.ViewDataBinding
 import com.dab.zx.R
-import com.dab.zx.config.MapConst
 import com.dab.zx.databinding.ActivityMainBinding
 import com.dab.zx.uitls.AppManager
 import com.dab.zx.view.base.BaseActivity
@@ -28,10 +27,7 @@ class MainActivity : BaseActivity() {
         (dataBinding as ActivityMainBinding).vm = mMainVm
         bannerPack.apply {
             initScale()
-            setImages(MapConst.GuideMap.entries.map { it.value })
-            setOnBannerClickListener { position ->
-                mMainVm.onPackQueryClick(position, this)
-            }
+            setOnBannerClickListener { position -> mMainVm.onPackQueryClick(position, this) }
             start()
         }
     }

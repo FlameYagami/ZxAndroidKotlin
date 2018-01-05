@@ -23,13 +23,11 @@ import org.jetbrains.anko.startActivity
  */
 class MainVm {
 
-    companion object {
-        private var TAG: String = MainVm::class.java.simpleName
-    }
-
+    var imagePathList: List<Int>? = null
     val key: ObservableField<String> = ObservableField()
 
     init {
+        imagePathList = MapConst.GuideMap.entries.map { it.value }
         Observable.just(this).observeOn(Schedulers.io()).subscribe {
             RestrictUtils.getRestrictList()
             SQLiteUtils.getAllCardList()

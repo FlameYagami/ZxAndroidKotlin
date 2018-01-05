@@ -190,8 +190,8 @@ class DeckEditorActivity : BaseActivity() {
 
     fun onBannerPreview_LongClick(): Boolean {
         val number = tvNumber.text.toString()
-        CardDetailActivity.cardBean = CardUtils.getCardBean(number)
-        startActivity<CardDetailActivity>()
+        val card = CardUtils.getCardBean(number)
+        startActivity<CardDetailActivity>(CardBean::class.java.simpleName to card)
         return false
     }
 

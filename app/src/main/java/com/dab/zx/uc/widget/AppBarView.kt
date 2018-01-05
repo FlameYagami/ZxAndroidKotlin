@@ -60,6 +60,4 @@ class AppBarView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
             false
         }
     }
-
-
 }

@@ -1,23 +1,26 @@
 package com.dab.zx.viewmodel
 
 import android.app.Activity
-import android.databinding.ObservableField
+import android.content.Context
 import com.dab.zx.R
 import com.dab.zx.bean.CardBean
-import com.dab.zx.view.search.CardPreviewAdapter
+import com.dab.zx.binding.SingleItemVm
+import com.dab.zx.binding.annotation.SubitemResHolder
+import com.dab.zx.databinding.ItemCardPreviewBinding
+import com.dab.zx.view.search.CardDetailActivity
+import org.jetbrains.anko.startActivity
 
 /**
  * Created by 八神火焰 on 2017/12/27.
  */
-class CardPreviewVm {
+@SubitemResHolder(R.layout.item_card_preview)
+class CardPreviewVm(context: Context) : SingleItemVm<ItemCardPreviewBinding, CardBean>(context) {
 
-    var cardList: List<CardBean>
-    var adapter: CardPreviewAdapter
-    var title: ObservableField<String>
-
-    constructor(activity: Activity) {
-        cardList = activity.intent.extras.getSerializable(CardBean::class.java.simpleName) as List<CardBean>
-        adapter = CardPreviewAdapter(activity)
-        title = ObservableField(activity.getString(R.string.card_preview_about_title) + cardList.size)
+    init {
+        setOnItemClickListener { view, data, position ->
+            val card = data[position]
+            view.context.startActivity<CardDetailActivity>(CardBean::class.java.simpleName to card)
+        }
+        data.addAll((context as Activity).intent.extras.getSerializable(CardBean::class.java.simpleName) as List<CardBean>)
     }
 }
