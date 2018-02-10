@@ -38,7 +38,32 @@ object CardUtils {
      * @return Id
      */
     fun getSignResId(sign: String): Int {
-        return MapConst.SignMap.getOrDefault(sign, -1)
+        var result = -1
+        for (pair: Map.Entry<String, Int> in MapConst.SignMap) {
+            if (pair.key == sign) {
+                result = pair.value
+                break
+            }
+        }
+        return result
+    }
+
+    /**
+     * 获取阵营的图片资源Id
+
+     * @param Camp 阵营类型
+     * *
+     * @return Id
+     */
+    fun getCampResId(Camp: String): Int {
+        var result = -1
+        for (pair: Map.Entry<String, Int> in MapConst.CampMap) {
+            if (pair.key == Camp) {
+                result = pair.value
+                break
+            }
+        }
+        return result
     }
 
     /**
@@ -53,7 +78,7 @@ object CardUtils {
                 .split("/".toRegex())
                 .dropLastWhile({ it.isEmpty() })
                 .toTypedArray()
-                .mapTo(ArrayList()) { MapConst.CampMap.getOrDefault(it, -1) }
+                .mapTo(ArrayList()) { getCampResId(it) }
         while (campResIdList.size < 5) {
             campResIdList.add(-1)
         }
@@ -67,8 +92,15 @@ object CardUtils {
      * *
      * @return Id
      */
-    fun getRareResIdList(rare: String): Int {
-        return MapConst.RareMap.getOrDefault(rare, -1)
+    fun getRareResId(rare: String): Int {
+        var result = -1
+        for (pair: Map.Entry<String, Int> in MapConst.RareMap) {
+            if (pair.key == rare) {
+                result = pair.value
+                break
+            }
+        }
+        return result
     }
 
     /**

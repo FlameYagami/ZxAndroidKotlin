@@ -36,9 +36,7 @@ object MapConst {
         CampMap.put("无", R.drawable.ic_camp_void)
 
         KeySearchMap.put("卡名", SQLitConst.ColumnCName)
-        KeySearchMap.put("日名", SQLitConst.ColumnJName)
         KeySearchMap.put("卡编", SQLitConst.ColumnNumber)
-        KeySearchMap.put("罕贵", SQLitConst.ColumnRare)
         KeySearchMap.put("画师", SQLitConst.ColumnIllust)
         KeySearchMap.put("能力", SQLitConst.ColumnAbility)
 

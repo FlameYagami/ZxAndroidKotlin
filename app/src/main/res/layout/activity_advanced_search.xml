@@ -1,270 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/viewContent"
-    style="@style/layout_match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="vm"
+            type="com.dab.zx.viewmodel.AdvancedSearchVm"/>
+    </data>
 
-    <com.dab.zx.uc.widget.AppBarView
-        android:id="@+id/viewAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        app:title_text="@string/advanced_search_about_title"/>
-
-    <LinearLayout
-        android:id="@+id/viewItemContent"
+    <RelativeLayout
+        android:id="@+id/viewContent"
         style="@style/layout_match_parent"
-        android:layout_below="@+id/viewAppBar"
-        android:layout_margin="@dimen/activity_padding"
-        android:orientation="vertical">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <com.dab.zx.uc.widget.AppBarView
+            android:id="@+id/viewAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:title_text="@string/advanced_search_about_title"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical">
+            style="@style/layout_match_parent"
+            android:layout_below="@+id/viewAppBar"
+            android:layout_margin="@dimen/activity_padding"
+            android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatTextView
-                style="@style/layout_wrap_content"
-                android:text="@string/adv_search_key"/>
-
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/txtKey"
-                style="@style/StyleEditText"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:hint="@string/main_search_hint"/>
+                android:layout_height="48dp"
+                android:gravity="center_vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/layout_wrap_content"
+                    android:text="@string/adv_search_key"/>
+
+                <android.support.v7.widget.AppCompatEditText
+                    style="@style/StyleEditText"
+                    android:text="@={vm.searchModel.key}"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:hint="@string/main_search_hint"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/layout_wrap_content"
+                    android:text="@string/adv_search_cost"/>
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:text="@={vm.searchModel.cost}"
+                    style="@style/StyleEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/layout_wrap_content"
+                    android:text="@string/adv_search_power"/>
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:text="@={vm.searchModel.power}"
+                    style="@style/StyleEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/layout_wrap_content"
+                    android:text="@string/adv_search_pack"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    style="@style/StyleSpinner"
+                    android:layout_width="0dip"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    bind:spinnerAdapter="@{vm.packAdapter}"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/layout_wrap_content"
+                    android:text="@string/adv_search_illust"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    style="@style/StyleSpinner"
+                    android:layout_width="0dip"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    bind:spinnerAdapter="@{vm.illustAdapter}"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/layout_wrap_content"
+                    android:text="@string/adv_search_type"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/cmbType"
+                    style="@style/StyleSpinner"
+                    android:layout_width="0dip"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:entries="@array/type"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/layout_wrap_content"
+                    android:text="@string/adv_search_camp"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/cmbCamp"
+                    style="@style/StyleSpinner"
+                    android:layout_width="0dip"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:entries="@array/camp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/layout_wrap_content"
+                    android:text="@string/adv_search_race"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/cmbRace"
+                    style="@style/StyleSpinner"
+                    android:layout_width="0dip"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:entries="@array/not_applicable"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/layout_wrap_content"
+                    android:text="@string/adv_search_sign"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/cmbSign"
+                    style="@style/StyleSpinner"
+                    android:layout_width="0dip"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:entries="@array/sign"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/layout_wrap_content"
+                    android:text="@string/adv_search_rare"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/cmbRare"
+                    style="@style/StyleSpinner"
+                    android:layout_width="0dip"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:entries="@array/rare"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/layout_wrap_content"
+                    android:text="@string/adv_search_restrict"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/cmbRestrict"
+                    style="@style/StyleSpinner"
+                    android:layout_width="0dip"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:entries="@array/restrict"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:onClick="@{vm.onAbilityType}"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:text="@string/adv_search_ability_type"/>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:onClick="@{vm.onAbilityDetail}"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:text="@string/adv_search_ability_detail"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical">
+        <android.support.design.widget.FloatingActionButton
+            android:onClick="@{vm.onSearch}"
+            android:id="@+id/fabSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:src="@android:drawable/ic_menu_search"/>
 
-            <android.support.v7.widget.AppCompatTextView
-                style="@style/layout_wrap_content"
-                android:text="@string/adv_search_cost"/>
+        <android.support.design.widget.FloatingActionButton
+            android:onClick="@{vm.onReset}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:src="@android:drawable/ic_menu_rotate"
+            app:backgroundTint="@color/colorAccent"/>
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/txtCost"
-                style="@style/StyleEditText"
-                android:layout_width="0dp"
-                android:layout_height="32dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"/>
-
-            <android.support.v7.widget.AppCompatTextView
-                style="@style/layout_wrap_content"
-                android:text="@string/adv_search_power"/>
-
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/txtPower"
-                style="@style/StyleEditText"
-                android:layout_width="0dp"
-                android:layout_height="32dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical">
-
-            <android.support.v7.widget.AppCompatTextView
-                style="@style/layout_wrap_content"
-                android:text="@string/adv_search_pack"/>
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmbPack"
-                style="@style/StyleSpinner"
-                android:layout_width="0dip"
-                android:layout_height="32dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:entries="@array/not_applicable"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical">
-
-            <android.support.v7.widget.AppCompatTextView
-                style="@style/layout_wrap_content"
-                android:text="@string/adv_search_illust"/>
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmbIllust"
-                style="@style/StyleSpinner"
-                android:layout_width="0dip"
-                android:layout_height="32dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:entries="@array/not_applicable"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical">
-
-            <android.support.v7.widget.AppCompatTextView
-                style="@style/layout_wrap_content"
-                android:text="@string/adv_search_type"/>
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmbType"
-                style="@style/StyleSpinner"
-                android:layout_width="0dip"
-                android:layout_height="32dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:entries="@array/type"/>
-
-            <android.support.v7.widget.AppCompatTextView
-                style="@style/layout_wrap_content"
-                android:text="@string/adv_search_camp"/>
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmbCamp"
-                style="@style/StyleSpinner"
-                android:layout_width="0dip"
-                android:layout_height="32dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:entries="@array/camp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical">
-
-            <android.support.v7.widget.AppCompatTextView
-                style="@style/layout_wrap_content"
-                android:text="@string/adv_search_race"/>
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmbRace"
-                style="@style/StyleSpinner"
-                android:layout_width="0dip"
-                android:layout_height="32dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:entries="@array/not_applicable"/>
-
-            <android.support.v7.widget.AppCompatTextView
-                style="@style/layout_wrap_content"
-                android:text="@string/adv_search_sign"/>
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmbSign"
-                style="@style/StyleSpinner"
-                android:layout_width="0dip"
-                android:layout_height="32dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:entries="@array/sign"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical">
-
-            <android.support.v7.widget.AppCompatTextView
-                style="@style/layout_wrap_content"
-                android:text="@string/adv_search_rare"/>
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmbRare"
-                style="@style/StyleSpinner"
-                android:layout_width="0dip"
-                android:layout_height="32dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:entries="@array/rare"/>
-
-            <android.support.v7.widget.AppCompatTextView
-                style="@style/layout_wrap_content"
-                android:text="@string/adv_search_restrict"/>
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/cmbRestrict"
-                style="@style/StyleSpinner"
-                android:layout_width="0dip"
-                android:layout_height="32dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:entries="@array/restrict"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical">
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btnAbilityType"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:text="@string/adv_search_ability_type"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btnAbilityDetail"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:text="@string/adv_search_ability_detail"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:src="@android:drawable/ic_menu_search"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabReset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:src="@android:drawable/ic_menu_rotate"
-        app:backgroundTint="@color/colorAccent"/>
-
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

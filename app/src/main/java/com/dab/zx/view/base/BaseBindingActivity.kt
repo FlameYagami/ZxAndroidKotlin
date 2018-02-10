@@ -1,5 +1,7 @@
 package com.dab.zx.view.base
 
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.MotionEvent
@@ -13,13 +15,13 @@ import com.michaelflisar.rxbus2.rx.RxDisposableManager
 import me.imid.swipebacklayout.lib.SwipeBackLayout
 
 
-abstract class BaseActivity : SwipeBackActivity() {
+abstract class BaseBindingActivity : SwipeBackActivity() {
 
     lateinit var mSwipeBackLayout: SwipeBackLayout
 
     abstract val layoutId: Int
 
-    abstract fun initViewAndData()
+    abstract fun initViewAndData(mViewDataBinding: ViewDataBinding)
 
     private fun getDecorView(): ViewGroup {
         return findViewById(android.R.id.content)
@@ -29,8 +31,7 @@ abstract class BaseActivity : SwipeBackActivity() {
         super.onCreate(savedInstanceState)
         mSwipeBackLayout = swipeBackLayout
         mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT)
-        setContentView(layoutId)
-        initViewAndData()
+        initViewAndData(DataBindingUtil.setContentView(this, layoutId))
         AppManager.instance().addActivity(this)
     }
 

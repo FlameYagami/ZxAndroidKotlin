@@ -1,6 +1,5 @@
 package com.dab.zx.view.setting
 
-import android.databinding.ViewDataBinding
 import com.dab.zx.R
 import com.dab.zx.uitls.SystemUtils
 import com.dab.zx.view.base.BaseActivity
@@ -11,17 +10,16 @@ import kotlinx.android.synthetic.main.activity_about.*
  */
 class AboutActivity : BaseActivity() {
 
+    companion object {
+        private val TAG = AboutActivity::class.java.simpleName
+    }
+
     override val layoutId: Int
         get() = R.layout.activity_about
 
-    override fun initViewAndData(dataBinding: ViewDataBinding) {
+    override fun initViewAndData() {
         viewAppBar.setNavigationClickListener { onBackPressed() }
         msg_version.setValue(SystemUtils.versionName)
-    }
-
-    companion object {
-
-        private val TAG = AboutActivity::class.java.simpleName
     }
 
     //    @OnClick(R.id.msg_update)

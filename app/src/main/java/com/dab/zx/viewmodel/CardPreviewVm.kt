@@ -1,6 +1,5 @@
 package com.dab.zx.viewmodel
 
-import android.app.Activity
 import android.content.Context
 import com.dab.zx.R
 import com.dab.zx.bean.CardBean
@@ -14,13 +13,13 @@ import org.jetbrains.anko.startActivity
  * Created by 八神火焰 on 2017/12/27.
  */
 @SubitemResHolder(R.layout.item_card_preview)
-class CardPreviewVm(context: Context) : SingleItemVm<ItemCardPreviewBinding, CardBean>(context) {
+class CardPreviewVm(context: Context, cardModels :List<CardBean>) : SingleItemVm<ItemCardPreviewBinding, CardBean>(context) {
 
     init {
         setOnItemClickListener { view, data, position ->
             val card = data[position]
             view.context.startActivity<CardDetailActivity>(CardBean::class.java.simpleName to card)
         }
-        data.addAll((context as Activity).intent.extras.getSerializable(CardBean::class.java.simpleName) as List<CardBean>)
+        data.addAll(cardModels)
     }
 }

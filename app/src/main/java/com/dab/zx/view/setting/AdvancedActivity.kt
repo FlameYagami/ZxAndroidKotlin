@@ -1,11 +1,10 @@
 package com.dab.zx.view.setting
 
-import android.databinding.ViewDataBinding
 import android.support.v7.app.AlertDialog
 import com.dab.zx.R
 import com.dab.zx.bean.KeySearchBean
 import com.dab.zx.config.SpConst
-import com.dab.zx.uc.dialog.DialogCheckBox
+import com.dab.zx.uc.dialog.DialogBindingCheckBox
 import com.dab.zx.uitls.StringUtils
 import com.dab.zx.view.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_advanced.*
@@ -17,17 +16,15 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 
 class AdvancedActivity : BaseActivity() {
 
-    companion object {
-        var mOrderPatternArrays: Array<String>? = null
-    }
+    lateinit var mOrderPatternArrays: Array<String>
 
     override val layoutId: Int
         get() = R.layout.activity_advanced
 
-    override fun initViewAndData(dataBinding: ViewDataBinding) {
+    override fun initViewAndData() {
         mOrderPatternArrays = resources.getStringArray(R.array.preview_order)
         viewAppBar.setNavigationClickListener { onBackPressed() }
-        msgPreviewOrder.setDefaultSp(SpConst.OrderPattern, mOrderPatternArrays!![0])
+        msgPreviewOrder.setDefaultSp(SpConst.OrderPattern, mOrderPatternArrays[0])
         msgKeySearch.setValue(StringUtils.changeList2String(KeySearchBean.selectKeySearchList))
         msgPreviewOrder.onClick { onOrderPattern_Click() }
         msgKeySearch.onClick { onKeySearch_Click() }
@@ -36,12 +33,12 @@ class AdvancedActivity : BaseActivity() {
     fun onOrderPattern_Click() {
         AlertDialog.Builder(this)
                 .setTitle(getString(R.string.adv_preview_order))
-                .setItems(mOrderPatternArrays) { _, index -> msgKeySearch.setDefaultSp(SpConst.OrderPattern, mOrderPatternArrays?.get(index) as String) }
+                .setItems(mOrderPatternArrays) { _, index -> msgPreviewOrder.setDefaultSp(SpConst.OrderPattern, mOrderPatternArrays[index]) }
                 .show()
     }
 
     fun onKeySearch_Click() {
-        DialogCheckBox(this, getString(R.string.adv_key_search), KeySearchBean.getKeySearchMap(), { mCheckboxMap ->
+        DialogBindingCheckBox(this, getString(R.string.adv_key_search), KeySearchBean.getKeySearchMap(), { mCheckboxMap ->
             KeySearchBean.saveKeySearchMap(mCheckboxMap)
             msgKeySearch.setValue(StringUtils.changeList2String(KeySearchBean.selectKeySearchList))
         }).show()

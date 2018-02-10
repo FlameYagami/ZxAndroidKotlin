@@ -20,7 +20,7 @@ import com.dab.zx.uitls.DisplayUtils
 import com.dab.zx.uitls.PathManager
 import com.dab.zx.uitls.database.SQLiteUtils
 import com.dab.zx.uitls.database.SqlUtils
-import com.dab.zx.view.base.BaseActivity
+import com.dab.zx.view.base.BaseBindingActivity
 import com.dab.zx.view.search.CardDetailActivity
 import com.michaelflisar.rxbus2.RxBusBuilder
 import com.michaelflisar.rxbus2.rx.RxDisposableManager
@@ -38,7 +38,7 @@ import java.io.File
 /**
  * Created by 八神火焰 on 2016/12/21.
  */
-class DeckEditorActivity : BaseActivity() {
+class DeckEditorActivity : BaseBindingActivity() {
 
     private var mPreviewCardAdapter = CardAdapter(this)
     private var mIgDeckAdapter = DeckAdapter(this)

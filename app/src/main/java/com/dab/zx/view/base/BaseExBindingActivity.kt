@@ -1,29 +1,25 @@
 package com.dab.zx.view.base
 
 import android.app.Activity
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.view.MotionEvent
-import android.view.View
-import android.widget.Toast
-import com.dab.zx.config.MyApp
-import com.dab.zx.uc.widget.ToastView
 import com.dab.zx.uitls.AppManager
 import com.dab.zx.uitls.DisplayUtils
 import com.michaelflisar.rxbus2.rx.RxDisposableManager
 
 
-abstract class BaseExActivity : Activity() {
+abstract class BaseExBindingActivity : Activity() {
 
     abstract val layoutId: Int
 
-    abstract fun initViewAndData()
+    abstract fun initViewAndData(mViewDataBinding: ViewDataBinding)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        StatusBarUtils.enableTranslucentStatusBar(this)
-        setContentView(layoutId)
-        initViewAndData()
+        initViewAndData(DataBindingUtil.setContentView(this, layoutId))
         AppManager.instance().addActivity(this)
     }
 
@@ -38,13 +34,5 @@ abstract class BaseExActivity : Activity() {
         super.onDestroy()
         RxDisposableManager.unsubscribe(this)
         AppManager.instance().finishActivity(this)
-    }
-
-    fun showToast(message: String) {
-        runOnUiThread { ToastView.make(MyApp.context, message, Toast.LENGTH_SHORT).show() }
-    }
-
-    fun showSnackBar(view: View, message: String) {
-        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
     }
 }

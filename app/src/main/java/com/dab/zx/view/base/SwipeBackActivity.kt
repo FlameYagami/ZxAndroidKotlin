@@ -8,21 +8,21 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper
 
 open class SwipeBackActivity : AppCompatActivity(), SwipeBackActivityBase {
-    private var mHelper: SwipeBackActivityHelper? = null
+    lateinit var mHelper: SwipeBackActivityHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mHelper = SwipeBackActivityHelper(this)
-        mHelper?.onActivityCreate()
+        mHelper.onActivityCreate()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        mHelper?.onPostCreate()
+        mHelper.onPostCreate()
     }
 
     override fun getSwipeBackLayout(): SwipeBackLayout {
-        return mHelper?.swipeBackLayout as SwipeBackLayout
+        return mHelper.swipeBackLayout as SwipeBackLayout
     }
 
     override fun setSwipeBackEnable(enable: Boolean) {
@@ -33,7 +33,6 @@ open class SwipeBackActivity : AppCompatActivity(), SwipeBackActivityBase {
         Utils.convertActivityToTranslucent(this)
         swipeBackLayout.scrollToFinishActivity()
     }
-
 }
 
 

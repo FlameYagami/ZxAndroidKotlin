@@ -11,7 +11,7 @@ import com.dab.zx.game.utils.DeckUtils
 import com.dab.zx.uc.dialog.DialogEditText
 import com.dab.zx.uitls.FileUtils
 import com.dab.zx.uitls.JsonUtils
-import com.dab.zx.view.base.BaseActivity
+import com.dab.zx.view.base.BaseBindingActivity
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -24,7 +24,7 @@ import java.util.*
  * Created by 八神火焰 on 2016/12/21.
  */
 
-class DeckPreviewActivity : BaseActivity() {
+class DeckPreviewActivity : BaseBindingActivity() {
 
     internal lateinit var mDeckPreviewAdapter: DeckPreviewAdapter
 
@@ -39,7 +39,7 @@ class DeckPreviewActivity : BaseActivity() {
     override val layoutId: Int
         get() = R.layout.activity_deck_preview
 
-    override fun initViewAndData(dataBinding: ViewDataBinding) {
+    override fun initViewAndData(mViewDataBinding: ViewDataBinding) {
         viewAppBar.setNavigationClickListener { onBackPressed() }
         mDeckPreviewAdapter = DeckPreviewAdapter(this)
         rvDeckPreview.layoutManager = LinearLayoutManager(this)

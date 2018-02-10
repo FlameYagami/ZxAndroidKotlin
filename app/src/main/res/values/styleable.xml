@@ -28,6 +28,6 @@
         <attr name="banner_style" format="integer"/>
         <attr name="enable_glide" format="boolean"/>
         <attr name="enable_scale" format="boolean"/>
-        <attr name="banner_scale" format="float"/>
+        <attr name="scale_ratio" format="float"/>
     </declare-styleable>
 </resources>

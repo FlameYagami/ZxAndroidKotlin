@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="vm"
+            type="com.dab.zx.uc.dialog.CheckboxModel"/>
+    </data>
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:text="@{vm.key}"
+        android:checked="@{vm.value}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</layout>

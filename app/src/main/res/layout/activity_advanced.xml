@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:padding="@dimen/activity_padding"
-        app:title_text="@string/adv_preview_order"/>
+        app:title_text="@string/adv_preview_order"
+        app:message_text="@string/number"/>
 
 </LinearLayout>

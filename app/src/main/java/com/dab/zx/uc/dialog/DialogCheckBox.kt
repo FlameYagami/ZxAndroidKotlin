@@ -20,15 +20,15 @@ class DialogCheckBox(context: Context, title: String, mCheckboxMap: LinkedHashMa
                      private var mButtonClickListener: (mCheckboxMap: LinkedHashMap<String, Boolean>) -> Unit) :
         AlertDialog(context), DialogInterface.OnClickListener {
 
-    private lateinit var mCheckBoxAdapter: CheckBoxAdapter
+//    private var mCheckBoxAdapter: CheckBoxAdapter
 
     init {
-//        val view = View.inflate(context, R.layout.dialog_checkbox, null)
+        val view = View.inflate(context, R.layout.dialog_checkbox, null)
 //        val rvCheckbox = view.findViewById<RecyclerView>(R.id.rvCheckbox)
-//        setView(view)
-//        setTitle(title)
-//        setButton(DialogInterface.BUTTON_POSITIVE, "确 定", this)
-//        setButton(DialogInterface.BUTTON_NEGATIVE, "取 消", this)
+        setView(view)
+        setTitle(title)
+        setButton(DialogInterface.BUTTON_POSITIVE, "确 定", this)
+        setButton(DialogInterface.BUTTON_NEGATIVE, "取 消", this)
 //        mCheckBoxAdapter = CheckBoxAdapter(context, mCheckboxMap)
 //        rvCheckbox.layoutManager = GridLayoutManager(context, 2)
 //        rvCheckbox.adapter = mCheckBoxAdapter
@@ -37,7 +37,7 @@ class DialogCheckBox(context: Context, title: String, mCheckboxMap: LinkedHashMa
 
     override fun onClick(dialogInterface: DialogInterface, which: Int) {
         if (which == DialogInterface.BUTTON_POSITIVE) {
-            mButtonClickListener.invoke(mCheckBoxAdapter.mCheckboxMap)
+//            mButtonClickListener.invoke(mCheckBoxAdapter.mCheckboxMap)
         }
     }
 

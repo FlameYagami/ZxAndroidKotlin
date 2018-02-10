@@ -204,7 +204,7 @@ class SqlUtils : SQLitConst {
             val tempValue = StringBuilder()
             val keyList = value.split(" ") // 以空格分割关键字
             for (key in keyList) {
-                tempValue.append(" AND ( JName LIKE '%$key%' ${getPartKeySql(key)})")
+                tempValue.append(" AND (${SQLitConst.ColumnJName} LIKE '%$key%' ${getPartKeySql(key)})")
             }
             return tempValue.toString()
         }
